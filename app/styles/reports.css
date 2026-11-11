@@ -1,0 +1,142 @@
+/* =========================================================
+   RELATÓRIOS
+========================================================= */
+
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.report-card {
+    min-height: 250px;
+    padding: 24px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 8px;
+
+    box-shadow:
+        0 6px 18px rgba(23, 48, 79, 0.04);
+}
+
+.report-card--pdf {
+    border-top-color: var(--color-secondary);
+}
+
+.report-card::after {
+    content: "";
+
+    width: 120px;
+    height: 120px;
+
+    position: absolute;
+    right: -58px;
+    bottom: -58px;
+
+    border-radius: 50%;
+
+    background: rgba(36, 85, 164, 0.04);
+
+    pointer-events: none;
+}
+
+.report-card--pdf::after {
+    background: rgba(7, 153, 209, 0.055);
+}
+
+.report-card__type {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: var(--color-primary);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.report-card--pdf .report-card__type {
+    color: var(--color-secondary);
+}
+
+.report-card h2 {
+    margin: 0 0 9px;
+
+    color: var(--color-primary-dark);
+
+    font-size: 1.35rem;
+    font-weight: 700;
+
+    line-height: 1.25;
+}
+
+.report-card p {
+    max-width: 520px;
+
+    margin: 0 0 24px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.84rem;
+    font-weight: 400;
+
+    line-height: 1.6;
+}
+
+.report-card > .btn-secondary,
+.report-card > .btn-primary,
+.report-card__actions {
+    margin-top: auto;
+}
+
+.report-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+
+    position: relative;
+    z-index: 1;
+}
+
+.report-card__actions .btn-primary,
+.report-card__actions .btn-secondary,
+.report-card > .btn-secondary,
+.report-card > .btn-primary {
+    min-height: 40px;
+}
+
+@media (max-width: 760px) {
+
+    .reports-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-card {
+        min-height: 220px;
+        padding: 20px;
+    }
+
+    .report-card__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .report-card__actions .btn-primary,
+    .report-card__actions .btn-secondary {
+        width: 100%;
+    }
+
+}

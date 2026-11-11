@@ -1,0 +1,13 @@
+@import url('styles/global.css');
+@import url('styles/login.css');
+@import url('styles/header.css');
+@import url('styles/menu.css');
+@import url('styles/layout.css');
+@import url('styles/upload.css');
+@import url('styles/dashboard.css');
+@import url('styles/checklist.css');
+@import url('styles/bi.css');
+@import url('styles/reports.css');
+@import url('styles/responsive.css');
+
+@import url('styles/dark-fixes.css');

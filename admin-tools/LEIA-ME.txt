@@ -1,0 +1,13 @@
+FERRAMENTAS ADMINISTRATIVAS - INTEGRA
+
+Estes arquivos NAO fazem parte do aplicativo instalado.
+Eles permanecem apenas com o administrador do sistema.
+
+CRIAR_ACESSO.cmd / criar_acesso.ps1:
+- usados para manter a lista de credenciais da base atual;
+- o arquivo credenciais_criadas.txt, quando gerado, deve ficar somente com o administrador.
+
+ATENCAO:
+Na versao Tauri 0.2.0, os acessos existentes sao empacotados em app/acessos.js no momento do build.
+Se novos acessos forem criados depois que o aplicativo ja estiver instalado, sera necessario atualizar/recompilar o aplicativo.
+A migracao de usuarios para armazenamento desktop gravavel sera feita em etapa separada.

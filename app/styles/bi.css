@@ -1,0 +1,2270 @@
+/* =========================================================
+   PAINEL BI - DASHBOARD SIAPS
+========================================================= */
+
+.bi-page {
+    width: 100%;
+
+    min-height: calc(100vh - 140px);
+
+    padding: 30px 36px 48px;
+
+    background:
+        linear-gradient(180deg,
+            #edf3fa 0,
+            #f5f7fa 230px,
+            #f5f7fa 100%);
+}
+
+
+.bi-shell {
+    width: 100%;
+    max-width: 1580px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   VARIÁVEIS DE RISCO
+========================================================= */
+
+.bi-page {
+    --bi-blue: #2455a4;
+    --bi-blue-dark: #173b74;
+
+    --bi-success: #23845a;
+    --bi-success-bg: #eaf7f0;
+
+    --bi-attention: #c29112;
+    --bi-attention-bg: #fff8dc;
+
+    --bi-warning: #dc751c;
+    --bi-warning-bg: #fff1e5;
+
+    --bi-danger: #d43d43;
+    --bi-danger-bg: #fdecED;
+}
+
+
+/* =========================================================
+   CABEÇALHO EXECUTIVO
+========================================================= */
+
+.bi-header {
+    margin-bottom: 20px;
+    padding: 25px 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 28px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(125deg,
+            #183f7d 0%,
+            #2455a4 58%,
+            #167eb7 100%);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 12px 30px rgba(24, 61, 120, 0.13);
+}
+
+
+.bi-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    right: -110px;
+    top: -160px;
+
+    border: 45px solid rgba(255, 255, 255, 0.055);
+
+    border-radius: 50%;
+}
+
+
+.bi-header__title {
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.bi-header__title>span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+.bi-header__title h1 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    line-height: 1.12;
+}
+
+
+.bi-header__title p {
+    max-width: 620px;
+
+    margin: 8px 0 0;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.82rem;
+    font-weight: 400;
+
+    line-height: 1.55;
+}
+
+
+.bi-header__actions {
+    display: flex;
+    align-items: flex-end;
+
+    gap: 10px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.bi-filter label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: rgba(255, 255, 255, 0.70);
+
+    font-size: 0.63rem;
+    font-weight: 600;
+
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+
+.bi-filter select {
+    width: 255px;
+    height: 42px;
+
+    padding: 0 36px 0 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    color: var(--color-text);
+
+    font-size: 0.76rem;
+    font-weight: 500;
+
+    outline: none;
+}
+
+
+.bi-presentation-button {
+    height: 42px;
+
+    padding: 0 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 6px;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    color: #ffffff;
+
+    font-size: 0.74rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.bi-presentation-button:hover {
+    background: rgba(255, 255, 255, 0.20);
+
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* =========================================================
+   KPIs
+========================================================= */
+
+.bi-kpi-grid {
+    margin-bottom: 15px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.bi-kpi {
+    min-height: 138px;
+
+    padding: 18px 20px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #dce5ee;
+    border-left: 5px solid var(--bi-blue);
+    border-radius: 8px;
+
+    box-shadow:
+        0 5px 18px rgba(23, 48, 79, 0.045);
+}
+
+
+.bi-kpi::after {
+    content: "";
+
+    position: absolute;
+
+    width: 90px;
+    height: 90px;
+
+    right: -34px;
+    bottom: -38px;
+
+    border-radius: 50%;
+
+    background: rgba(36, 85, 164, 0.055);
+}
+
+
+.bi-kpi--primary {
+    border-left-color: var(--bi-blue);
+
+    background:
+        linear-gradient(135deg,
+            #ffffff,
+            #f1f6fc);
+}
+
+
+.bi-kpi--warning {
+    border-left-color: var(--bi-attention);
+
+    background:
+        linear-gradient(135deg,
+            #ffffff,
+            var(--bi-attention-bg));
+}
+
+
+.bi-kpi--danger {
+    border-left-color: var(--bi-danger);
+
+    background:
+        linear-gradient(135deg,
+            #ffffff,
+            var(--bi-danger-bg));
+}
+
+
+.bi-kpi--success {
+    border-left-color: var(--bi-success);
+
+    background:
+        linear-gradient(135deg,
+            #ffffff,
+            var(--bi-success-bg));
+}
+
+
+.bi-kpi__label {
+    display: block;
+
+    margin-bottom: 13px;
+
+    color: #64768a;
+
+    font-size: 0.69rem;
+    font-weight: 600;
+
+    letter-spacing: 0.45px;
+    text-transform: uppercase;
+}
+
+
+.bi-kpi strong {
+    display: block;
+
+    position: relative;
+
+    z-index: 1;
+
+    color: #173b74;
+
+    font-size: 2.2rem;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+.bi-kpi small {
+    display: block;
+
+    margin-top: 9px;
+
+    position: relative;
+
+    z-index: 1;
+
+    color: #8290a1;
+
+    font-size: 0.68rem;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.bi-main-grid,
+.bi-secondary-grid {
+    margin-bottom: 14px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.45fr) minmax(350px, 0.8fr);
+
+    gap: 14px;
+}
+
+
+.bi-secondary-grid {
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   PAINÉIS
+========================================================= */
+
+.bi-panel {
+    padding: 20px 21px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #dce5ee;
+    border-radius: 9px;
+
+    box-shadow:
+        0 5px 18px rgba(23, 48, 79, 0.04);
+}
+
+
+.bi-panel::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background:
+        linear-gradient(90deg,
+            var(--bi-blue),
+            #1b9ad3);
+}
+
+
+.bi-panel__header {
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.bi-panel__header span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8190a3;
+
+    font-size: 0.64rem;
+    font-weight: 600;
+
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+
+.bi-panel__header h2 {
+    margin: 0;
+
+    color: #183d78;
+
+    font-size: 1.03rem;
+    font-weight: 600;
+}
+
+
+.bi-panel__header small {
+    color: #8997a8;
+
+    font-size: 0.65rem;
+}
+
+
+/* =========================================================
+   DISTRIBUIÇÃO POR GRUPO
+========================================================= */
+
+.bi-bars {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+
+.bi-bar-row__label {
+    margin-bottom: 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.bi-bar-row__label span {
+    color: #4d6177;
+
+    font-size: 0.74rem;
+    font-weight: 500;
+}
+
+
+.bi-bar-row__label strong {
+    color: #183d78;
+
+    font-size: 0.77rem;
+    font-weight: 600;
+}
+
+
+.bi-bar {
+    width: 100%;
+    height: 9px;
+
+    overflow: hidden;
+
+    border-radius: 5px;
+
+    background: #e9eff5;
+}
+
+
+.bi-bar__fill {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(90deg,
+            #2455a4,
+            #1498d4);
+}
+
+
+/* =========================================================
+   COBERTURA
+========================================================= */
+
+.bi-coverage {
+    display: grid;
+
+    grid-template-columns:
+        170px 1fr;
+
+    align-items: center;
+
+    gap: 26px;
+}
+
+
+.bi-ring {
+    --bi-ring-color: var(--bi-blue);
+
+    width: 160px;
+    height: 160px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(var(--bi-ring-color) 0 var(--bi-progress),
+
+            #e5ebf1 var(--bi-progress) 100%);
+}
+
+
+.bi-ring.bi-risk--success {
+    --bi-ring-color: var(--bi-success);
+}
+
+
+.bi-ring.bi-risk--attention {
+    --bi-ring-color: var(--bi-attention);
+}
+
+
+.bi-ring.bi-risk--warning {
+    --bi-ring-color: var(--bi-warning);
+}
+
+
+.bi-ring.bi-risk--danger {
+    --bi-ring-color: var(--bi-danger);
+}
+
+
+.bi-ring::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 14px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+}
+
+
+.bi-ring__inner {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.bi-ring__inner strong {
+    color: var(--bi-ring-color);
+
+    font-size: 1.9rem;
+    font-weight: 700;
+}
+
+
+.bi-ring__inner span {
+    margin-top: 3px;
+
+    color: #8795a5;
+
+    font-size: 0.64rem;
+}
+
+
+.bi-coverage__legend {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.bi-coverage-row {
+    padding: 8px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 14px;
+
+    border-bottom:
+        1px solid #edf1f5;
+}
+
+
+.bi-coverage-row:last-child {
+    border-bottom: none;
+}
+
+
+.bi-coverage-row>span {
+    color: #4f6175;
+
+    font-size: 0.7rem;
+}
+
+
+.bi-coverage-row>div {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+.bi-coverage-row strong {
+    color: #173b74;
+
+    font-size: 0.74rem;
+    font-weight: 600;
+}
+
+
+.bi-coverage-row small {
+    color: #8a98a8;
+
+    font-size: 0.61rem;
+}
+
+
+/* =========================================================
+   BOAS PRÁTICAS
+========================================================= */
+
+.bi-practices {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+.bi-practice-row {
+    padding: 10px 11px;
+
+    border: 1px solid #edf1f5;
+    border-radius: 6px;
+
+    background: #fbfcfd;
+}
+
+
+.bi-practice-row__top {
+    margin-bottom: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.bi-practice-row__top>div {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.bi-practice-row__top span {
+    color: #465a70;
+
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+
+.bi-practice-row__top strong {
+    font-size: 0.79rem;
+    font-weight: 700;
+}
+
+
+.bi-risk-label {
+    padding: 3px 6px;
+
+    border-radius: 4px;
+
+    font-size: 0.58rem !important;
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   CORES DE RISCO
+========================================================= */
+
+.bi-risk--success .bi-risk-label {
+    background: var(--bi-success-bg);
+    color: var(--bi-success);
+}
+
+
+.bi-risk--attention .bi-risk-label {
+    background: var(--bi-attention-bg);
+    color: var(--bi-attention);
+}
+
+
+.bi-risk--warning .bi-risk-label {
+    background: var(--bi-warning-bg);
+    color: var(--bi-warning);
+}
+
+
+.bi-risk--danger .bi-risk-label {
+    background: var(--bi-danger-bg);
+    color: var(--bi-danger);
+}
+
+
+.bi-risk--success .bi-practice-row__top strong {
+    color: var(--bi-success);
+}
+
+
+.bi-risk--attention .bi-practice-row__top strong {
+    color: var(--bi-attention);
+}
+
+
+.bi-risk--warning .bi-practice-row__top strong {
+    color: var(--bi-warning);
+}
+
+
+.bi-risk--danger .bi-practice-row__top strong {
+    color: var(--bi-danger);
+}
+
+
+/* =========================================================
+   BARRA DE BOAS PRÁTICAS
+========================================================= */
+
+.bi-practice-progress {
+    height: 7px;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+
+    background: #e8edf3;
+}
+
+
+.bi-practice-progress__bar {
+    height: 100%;
+
+    border-radius: inherit;
+}
+
+
+.bi-risk--success .bi-practice-progress__bar {
+    background: var(--bi-success);
+}
+
+
+.bi-risk--attention .bi-practice-progress__bar {
+    background: var(--bi-attention);
+}
+
+
+.bi-risk--warning .bi-practice-progress__bar {
+    background: var(--bi-warning);
+}
+
+
+.bi-risk--danger .bi-practice-progress__bar {
+    background: var(--bi-danger);
+}
+
+
+/* =========================================================
+   PRIORIDADES
+========================================================= */
+
+.bi-priorities {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+
+.bi-priority {
+    padding: 12px;
+
+    display: grid;
+
+    grid-template-columns:
+        32px 1fr auto;
+
+    align-items: center;
+
+    gap: 11px;
+
+    border: 1px solid #e4eaf0;
+    border-left: 4px solid #d9e1e9;
+    border-radius: 6px;
+
+    background: #fbfcfd;
+}
+
+
+.bi-priority.bi-risk--success {
+    border-left-color: var(--bi-success);
+}
+
+
+.bi-priority.bi-risk--attention {
+    border-left-color: var(--bi-attention);
+}
+
+
+.bi-priority.bi-risk--warning {
+    border-left-color: var(--bi-warning);
+}
+
+
+.bi-priority.bi-risk--danger {
+    border-left-color: var(--bi-danger);
+}
+
+
+.bi-priority__index {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 5px;
+
+    background: #eff3f7;
+
+    color: #62758a;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+
+.bi-priority__body {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.bi-priority__title {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+}
+
+
+.bi-priority__body strong {
+    color: #2e4359;
+
+    font-size: 0.74rem;
+    font-weight: 600;
+}
+
+
+.bi-priority__body>span {
+    color: #8a97a6;
+
+    font-size: 0.63rem;
+}
+
+
+.bi-priority__rate {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+
+.bi-priority.bi-risk--success .bi-priority__rate {
+    color: var(--bi-success);
+}
+
+
+.bi-priority.bi-risk--attention .bi-priority__rate {
+    color: var(--bi-attention);
+}
+
+
+.bi-priority.bi-risk--warning .bi-priority__rate {
+    color: var(--bi-warning);
+}
+
+
+.bi-priority.bi-risk--danger .bi-priority__rate {
+    color: var(--bi-danger);
+}
+
+
+/* =========================================================
+   TABELA DAS EQUIPES
+========================================================= */
+
+.bi-panel--teams {
+    margin-top: 0;
+}
+
+
+.bi-team-table-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.bi-team-table {
+    width: 100%;
+    min-width: 1050px;
+
+    border-collapse: collapse;
+}
+
+
+.bi-team-table th {
+    padding: 11px;
+
+    text-align: left;
+
+    background: #f2f6fa;
+
+    border-bottom:
+        1px solid #dbe4ed;
+
+    color: #697c90;
+
+    font-size: 0.62rem;
+    font-weight: 600;
+
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+
+.bi-team-table td {
+    padding: 11px;
+
+    border-bottom:
+        1px solid #edf1f5;
+
+    color: #56697e;
+
+    font-size: 0.69rem;
+}
+
+
+.bi-team-table tbody tr {
+    transition: background 0.12s ease;
+}
+
+
+.bi-team-table tbody tr:hover {
+    background: #f7fafd;
+}
+
+
+.bi-team-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.bi-team-table td:first-child {
+    min-width: 220px;
+}
+
+
+.bi-team-table td:first-child strong {
+    display: block;
+
+    color: #273e56;
+
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+
+.bi-team-table td:first-child small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #909cac;
+
+    font-size: 0.6rem;
+}
+
+
+/* =========================================================
+   SEM DADOS
+========================================================= */
+
+.bi-empty {
+    width: 100%;
+    max-width: 600px;
+
+    margin: 80px auto;
+
+    padding: 40px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dce4ec;
+    border-radius: 9px;
+
+    box-shadow:
+        0 8px 24px rgba(23, 48, 79, 0.05);
+}
+
+
+.bi-empty__eyebrow {
+    color: var(--bi-blue);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+
+.bi-empty h1 {
+    margin: 10px 0;
+
+    color: #173b74;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+
+.bi-empty p {
+    margin: 0 0 20px;
+
+    color: #66788f;
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================================
+   MODO APRESENTAÇÃO
+========================================================= */
+
+body.bi-presentation {
+    overflow: hidden;
+
+    background: #edf2f7;
+}
+
+
+body.bi-presentation .app-header,
+body.bi-presentation .app-nav,
+body.bi-presentation .app-footer {
+    display: none !important;
+}
+
+
+body.bi-presentation .app-main {
+    height: 100vh;
+
+    overflow-y: auto;
+}
+
+
+body.bi-presentation .app-section {
+    display: none !important;
+}
+
+
+body.bi-presentation #sectionBi {
+    display: block !important;
+}
+
+
+body.bi-presentation .bi-page {
+    min-height: 100vh;
+
+    padding: 20px 26px;
+}
+
+
+body.bi-presentation .bi-shell {
+    max-width: 1800px;
+}
+
+
+body.bi-presentation .bi-header {
+    padding: 20px 24px;
+}
+
+
+body.bi-presentation .bi-header__title h1 {
+    font-size: 1.7rem;
+}
+
+
+body.bi-presentation .bi-kpi {
+    min-height: 115px;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 1150px) {
+
+    .bi-main-grid,
+    .bi-secondary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bi-kpi-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 760px) {
+
+    .bi-page {
+        padding:
+            20px 16px 38px;
+    }
+
+
+    .bi-header {
+        padding: 20px;
+
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+
+    .bi-header__title h1 {
+        font-size: 1.65rem;
+    }
+
+
+    .bi-header__actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+
+    .bi-filter select {
+        width: 100%;
+    }
+
+
+    .bi-presentation-button {
+        width: 100%;
+    }
+
+
+    .bi-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .bi-coverage {
+        grid-template-columns: 1fr;
+    }
+
+
+    .bi-ring {
+        margin: 0 auto;
+    }
+
+}
+
+/* =========================================================
+   INTERAÇÕES DO BI
+   Mantém o mesmo conteúdo e a mesma estrutura visual.
+========================================================= */
+
+.bi-bar-row,
+.bi-coverage-row,
+.bi-practice-row,
+.bi-priority,
+.bi-ring,
+.bi-team-table tbody tr[data-bi-team] {
+    transition:
+        opacity 0.16s ease,
+        transform 0.16s ease,
+        background 0.16s ease,
+        border-color 0.16s ease,
+        box-shadow 0.16s ease;
+}
+
+.bi-bar-row,
+.bi-coverage-row,
+.bi-practice-row,
+.bi-priority,
+.bi-ring,
+.bi-team-table tbody tr[data-bi-team] {
+    cursor: pointer;
+}
+
+.bi-bar-row:hover,
+.bi-bar-row:focus-visible {
+    transform: translateX(3px);
+}
+
+.bi-bar-row:hover .bi-bar__fill,
+.bi-bar-row:focus-visible .bi-bar__fill {
+    filter: saturate(1.12) brightness(1.02);
+}
+
+.bi-coverage-row:hover,
+.bi-coverage-row:focus-visible {
+    padding-left: 7px;
+    padding-right: 7px;
+    background: #f6f9fc;
+    border-radius: 5px;
+}
+
+.bi-practice-row:hover,
+.bi-practice-row:focus-visible {
+    border-color: #cbd9e7;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(23, 48, 79, 0.05);
+}
+
+.bi-priority:hover,
+.bi-priority:focus-visible {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(23, 48, 79, 0.05);
+}
+
+.bi-ring:hover,
+.bi-ring:focus-visible {
+    transform: scale(1.025);
+}
+
+.bi-team-table tbody tr[data-bi-team]:hover,
+.bi-team-table tbody tr[data-bi-team]:focus-visible {
+    background: #eef5fb;
+}
+
+.bi-bar-row:focus-visible,
+.bi-coverage-row:focus-visible,
+.bi-practice-row:focus-visible,
+.bi-priority:focus-visible,
+.bi-ring:focus-visible,
+.bi-team-table tbody tr[data-bi-team]:focus-visible {
+    outline: 2px solid rgba(36, 85, 164, 0.35);
+    outline-offset: 2px;
+}
+
+/* Um clique apenas destaca a mesma categoria nas áreas já existentes. */
+[data-bi-group].is-bi-selected {
+    opacity: 1;
+}
+
+.bi-bar-row.is-bi-selected {
+    transform: translateX(4px);
+}
+
+.bi-bar-row.is-bi-selected .bi-bar {
+    box-shadow: 0 0 0 2px rgba(36, 85, 164, 0.10);
+}
+
+.bi-coverage-row.is-bi-selected {
+    padding-left: 7px;
+    padding-right: 7px;
+    background: #f1f6fb;
+    border-radius: 5px;
+}
+
+.bi-practice-row.is-bi-selected,
+.bi-priority.is-bi-selected {
+    border-color: rgba(36, 85, 164, 0.30);
+    box-shadow: 0 0 0 2px rgba(36, 85, 164, 0.055);
+}
+
+[data-bi-group].is-bi-dimmed {
+    opacity: 0.36;
+}
+
+[data-bi-group].is-bi-dimmed:hover,
+[data-bi-group].is-bi-dimmed:focus-visible {
+    opacity: 0.72;
+}
+
+/* Tooltip flutuante: aparece apenas durante a interação. */
+.bi-tooltip {
+    min-width: 190px;
+    max-width: 240px;
+
+    padding: 11px 12px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    pointer-events: none;
+
+    opacity: 0;
+    visibility: hidden;
+
+    background: rgba(18, 42, 70, 0.96);
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 6px;
+
+    box-shadow: 0 10px 28px rgba(17, 39, 65, 0.20);
+
+    transform: translateY(3px);
+
+    transition:
+        opacity 0.12s ease,
+        transform 0.12s ease,
+        visibility 0.12s ease;
+}
+
+.bi-tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.bi-tooltip strong {
+    margin-bottom: 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.bi-tooltip span {
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 0.64rem;
+    font-weight: 400;
+}
+
+.bi-tooltip b {
+    margin-top: 3px;
+    color: #ffffff;
+    font-size: 0.66rem;
+    font-weight: 600;
+}
+
+@media (max-width: 760px) {
+    [data-bi-group].is-bi-dimmed {
+        opacity: 0.48;
+    }
+
+    .bi-tooltip {
+        max-width: 210px;
+    }
+}
+
+
+/* =========================================================
+   BI ESPECÍFICO - DESENVOLVIMENTO INFANTIL
+========================================================= */
+
+.bi-child-shell {
+    --bi-child-blue: #2455a4;
+    --bi-child-cyan: #1498d4;
+    --bi-child-green: #23845a;
+    --bi-child-yellow: #c29112;
+    --bi-child-orange: #dc751c;
+    --bi-child-red: #d43d43;
+}
+
+.bi-child-header {
+    align-items: center;
+}
+
+.bi-child-meta {
+    margin-top: 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.bi-child-meta > span {
+    min-height: 30px;
+    padding: 0 9px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 5px;
+
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.62rem;
+    font-weight: 400;
+}
+
+.bi-child-meta strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.bi-child-kpi-grid .bi-kpi {
+    min-height: 142px;
+}
+
+.bi-child-main-grid,
+.bi-child-secondary-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(340px, 0.75fr);
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.bi-child-secondary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   CUMPRIMENTO POR PRÁTICA
+========================================================= */
+
+.bi-child-practices {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.bi-child-practice {
+    width: 100%;
+    min-height: 58px;
+    padding: 9px 10px;
+
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 52px;
+    align-items: center;
+    gap: 11px;
+
+    border: 1px solid #e3eaf1;
+    border-left: 4px solid #cbd6e1;
+    border-radius: 6px;
+
+    background: #fbfcfd;
+    color: var(--color-text);
+
+    text-align: left;
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        opacity 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.bi-child-practice:hover {
+    border-color: #b9c8d7;
+    background: #f8fafc;
+}
+
+.bi-child-practice.is-active {
+    border-color: var(--color-primary);
+    background: rgba(36, 85, 164, 0.035);
+    box-shadow: 0 0 0 2px rgba(36, 85, 164, 0.06);
+}
+
+.bi-child-practice.is-muted,
+.bi-child-priority.is-muted {
+    opacity: 0.42;
+}
+
+.bi-child-practice.bi-risk--success {
+    border-left-color: var(--bi-child-green);
+}
+
+.bi-child-practice.bi-risk--attention {
+    border-left-color: var(--bi-child-yellow);
+}
+
+.bi-child-practice.bi-risk--warning {
+    border-left-color: var(--bi-child-orange);
+}
+
+.bi-child-practice.bi-risk--danger {
+    border-left-color: var(--bi-child-red);
+}
+
+.bi-child-practice__code {
+    width: 32px;
+    height: 32px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 5px;
+
+    background: #edf2f7;
+    color: #50657a;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.bi-child-practice__content {
+    min-width: 0;
+    display: block;
+}
+
+.bi-child-practice__top {
+    margin-bottom: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.bi-child-practice__top strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: #3a5067;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.bi-child-practice__top > span {
+    flex-shrink: 0;
+    color: #8795a5;
+    font-size: 0.63rem;
+    font-weight: 500;
+}
+
+.bi-child-practice__bar {
+    width: 100%;
+    height: 7px;
+    display: block;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #e8edf3;
+}
+
+.bi-child-practice__bar > span {
+    height: 100%;
+    display: block;
+    border-radius: inherit;
+    background: var(--bi-child-blue);
+}
+
+.bi-child-practice.bi-risk--success .bi-child-practice__bar > span {
+    background: var(--bi-child-green);
+}
+
+.bi-child-practice.bi-risk--attention .bi-child-practice__bar > span {
+    background: var(--bi-child-yellow);
+}
+
+.bi-child-practice.bi-risk--warning .bi-child-practice__bar > span {
+    background: var(--bi-child-orange);
+}
+
+.bi-child-practice.bi-risk--danger .bi-child-practice__bar > span {
+    background: var(--bi-child-red);
+}
+
+.bi-child-practice__percentage {
+    text-align: right;
+    color: var(--color-primary-dark);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SITUAÇÃO GERAL DA LISTA
+========================================================= */
+
+.bi-child-status-content {
+    display: grid;
+    grid-template-columns: 165px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+}
+
+.bi-child-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.bi-child-status-item {
+    min-height: 42px;
+    padding: 8px 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    border: 1px solid #e8edf3;
+    border-left: 3px solid #8fa2b5;
+    border-radius: 5px;
+    background: #fafbfd;
+}
+
+.bi-child-status-item--success {
+    border-left-color: var(--bi-child-green);
+}
+
+.bi-child-status-item--danger {
+    border-left-color: var(--bi-child-red);
+}
+
+.bi-child-status-item span {
+    color: #66788f;
+    font-size: 0.65rem;
+    font-weight: 400;
+}
+
+.bi-child-status-item strong {
+    color: #173b74;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PERFIL SOCIODEMOGRÁFICO
+========================================================= */
+
+.bi-child-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.bi-child-profile-block {
+    min-width: 0;
+}
+
+.bi-child-profile-block + .bi-child-profile-block {
+    padding-left: 18px;
+    border-left: 1px solid #e5ebf1;
+}
+
+.bi-child-profile-block h3 {
+    margin: 0 0 13px;
+    color: #314b65;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.bi-child-profile-row {
+    margin-bottom: 11px;
+}
+
+.bi-child-profile-row:last-child {
+    margin-bottom: 0;
+}
+
+.bi-child-profile-row__top {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.bi-child-profile-row__top span {
+    color: #65778b;
+    font-size: 0.66rem;
+}
+
+.bi-child-profile-row__top strong {
+    color: #28435f;
+    font-size: 0.66rem;
+    font-weight: 600;
+}
+
+.bi-child-profile-progress {
+    width: 100%;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: #e9eef4;
+}
+
+.bi-child-profile-progress > div {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--bi-child-blue), var(--bi-child-cyan));
+}
+
+.bi-child-profile-empty {
+    margin: 0;
+    color: #8a98a8;
+    font-size: 0.68rem;
+}
+
+
+/* =========================================================
+   PRINCIPAIS PENDÊNCIAS
+========================================================= */
+
+.bi-child-priority-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bi-child-priority {
+    width: 100%;
+    min-height: 52px;
+    padding: 9px 10px;
+
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+
+    border: 1px solid #e4eaf0;
+    border-left: 4px solid #d5dde5;
+    border-radius: 6px;
+
+    background: #fbfcfd;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    transition:
+        opacity 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.bi-child-priority:hover {
+    background: #f8fafc;
+}
+
+.bi-child-priority.is-active {
+    border-color: var(--color-primary);
+    background: rgba(36, 85, 164, 0.035);
+}
+
+.bi-child-priority.bi-risk--success {
+    border-left-color: var(--bi-child-green);
+}
+
+.bi-child-priority.bi-risk--attention {
+    border-left-color: var(--bi-child-yellow);
+}
+
+.bi-child-priority.bi-risk--warning {
+    border-left-color: var(--bi-child-orange);
+}
+
+.bi-child-priority.bi-risk--danger {
+    border-left-color: var(--bi-child-red);
+}
+
+.bi-child-priority__index {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background: #edf2f7;
+    color: #5d7186;
+    font-size: 0.64rem;
+    font-weight: 700;
+}
+
+.bi-child-priority__body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bi-child-priority__body strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #31475e;
+    font-size: 0.68rem;
+    font-weight: 600;
+}
+
+.bi-child-priority__body small {
+    color: #8997a7;
+    font-size: 0.6rem;
+}
+
+.bi-child-priority__value {
+    color: var(--bi-child-red);
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TABELA DOS CRITÉRIOS
+========================================================= */
+
+.bi-child-criteria-panel {
+    margin-bottom: 14px;
+}
+
+.bi-child-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e0e7ef;
+    border-radius: 7px;
+}
+
+.bi-child-table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.bi-child-table th {
+    padding: 10px 11px;
+    text-align: left;
+    background: #f3f6fa;
+    border-bottom: 1px solid #dce5ee;
+    color: #6b7e92;
+    font-size: 0.61rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.bi-child-table td {
+    padding: 12px 11px;
+    border-bottom: 1px solid #edf1f5;
+    color: #5a6e83;
+    font-size: 0.68rem;
+    vertical-align: top;
+}
+
+.bi-child-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.bi-child-table tbody tr.is-active {
+    background: rgba(36, 85, 164, 0.045);
+}
+
+.bi-child-table td:nth-child(2) {
+    min-width: 430px;
+}
+
+.bi-child-table td:nth-child(n + 3) {
+    white-space: nowrap;
+}
+
+.bi-child-table td > strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #30475e;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.bi-child-table td > small {
+    display: block;
+    color: #8997a7;
+    font-size: 0.61rem;
+    line-height: 1.5;
+}
+
+.bi-child-code {
+    width: 29px;
+    height: 29px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background: rgba(36, 85, 164, 0.08);
+    color: var(--color-primary);
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE DO BI INFANTIL
+========================================================= */
+
+@media (max-width: 1150px) {
+    .bi-child-main-grid,
+    .bi-child-secondary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .bi-child-meta {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .bi-child-meta > span {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .bi-child-status-content {
+        grid-template-columns: 1fr;
+    }
+
+    .bi-child-status-content .bi-ring {
+        margin: 0 auto;
+    }
+
+    .bi-child-profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bi-child-profile-block + .bi-child-profile-block {
+        padding-left: 0;
+        padding-top: 16px;
+        border-left: 0;
+        border-top: 1px solid #e5ebf1;
+    }
+
+    .bi-child-practice {
+        grid-template-columns: 32px minmax(0, 1fr) 46px;
+        gap: 8px;
+    }
+
+    .bi-child-practice__top strong {
+        white-space: normal;
+    }
+}
+
+/* =========================================================
+   FILTRO DE COMPETÊNCIAS - BI ESPECÍFICO
+========================================================= */
+
+.bi-child-header__actions {
+    align-items: flex-end;
+}
+
+.bi-period-filter {
+    position: relative;
+    min-width: 210px;
+}
+
+.bi-period-filter > summary {
+    min-height: 42px;
+
+    padding: 7px 34px 7px 12px;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 2px;
+
+    list-style: none;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    cursor: pointer;
+}
+
+.bi-period-filter > summary::-webkit-details-marker {
+    display: none;
+}
+
+.bi-period-filter > summary::after {
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    position: absolute;
+    right: 14px;
+    top: 50%;
+
+    border-right: 1.5px solid #64768a;
+    border-bottom: 1.5px solid #64768a;
+
+    transform: translateY(-65%) rotate(45deg);
+}
+
+.bi-period-filter[open] > summary::after {
+    transform: translateY(-35%) rotate(225deg);
+}
+
+.bi-period-filter > summary span {
+    color: #7a8999;
+
+    font-size: 0.57rem;
+    font-weight: 600;
+
+    letter-spacing: 0.55px;
+    text-transform: uppercase;
+}
+
+.bi-period-filter > summary strong {
+    max-width: 180px;
+
+    overflow: hidden;
+
+    color: #243c58;
+
+    font-size: 0.72rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.bi-period-filter__panel {
+    width: 310px;
+
+    padding: 13px;
+
+    position: absolute;
+    right: 0;
+    top: calc(100% + 7px);
+    z-index: 30;
+
+    border: 1px solid #d5e0ea;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 14px 34px rgba(22, 48, 80, 0.16);
+}
+
+.bi-period-filter__heading {
+    margin-bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.bi-period-filter__heading strong {
+    color: #263f5b;
+
+    font-size: 0.73rem;
+    font-weight: 600;
+}
+
+.bi-period-filter__heading span {
+    color: #8492a2;
+
+    font-size: 0.63rem;
+    font-weight: 400;
+}
+
+.bi-period-filter__options {
+    max-height: 230px;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.bi-period-option {
+    padding: 8px 9px;
+
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    align-items: flex-start;
+
+    gap: 8px;
+
+    border: 1px solid #e3e9ef;
+    border-radius: 6px;
+
+    background: #fbfcfd;
+
+    cursor: pointer;
+}
+
+.bi-period-option:has(input:checked) {
+    border-color: rgba(36, 85, 164, 0.28);
+    background: #f3f7fc;
+}
+
+.bi-period-option input {
+    margin: 2px 0 0;
+
+    accent-color: var(--color-primary);
+}
+
+.bi-period-option > span {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.bi-period-option strong {
+    color: #2d465f;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.bi-period-option small {
+    color: #8a98a7;
+
+    font-size: 0.59rem;
+    font-weight: 400;
+}
+
+.bi-period-filter__loading {
+    padding: 10px 4px;
+
+    color: #8a98a7;
+
+    font-size: 0.65rem;
+    line-height: 1.4;
+}
+
+.bi-period-filter__apply {
+    width: 100%;
+    height: 36px;
+
+    margin-top: 10px;
+
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+
+    background: var(--color-primary);
+    color: #ffffff;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.bi-period-filter__apply:hover {
+    background: var(--color-primary-dark);
+}
+
+.bi-period-filter__apply:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+@media (max-width: 900px) {
+    .bi-period-filter,
+    .bi-period-filter > summary,
+    .bi-filter,
+    .bi-filter select {
+        width: 100%;
+    }
+
+    .bi-period-filter__panel {
+        left: 0;
+        right: auto;
+
+        width: min(310px, 100%);
+    }
+}

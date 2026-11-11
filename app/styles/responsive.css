@@ -1,0 +1,88 @@
+@media (max-width: 900px) {
+
+    .app-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 18px 20px;
+    }
+
+    .app-header__actions {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+    .dashboard-toolbar {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 16px 20px;
+    }
+
+    .dashboard-filter,
+    .dashboard-filter select {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+    }
+
+    .toolbar-btn {
+        flex: 1;
+    }
+
+    .upload-page {
+        padding: 28px 20px 50px;
+    }
+
+    .upload-container {
+        padding: 26px 22px;
+    }
+
+    .upload-information {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-content {
+        padding: 22px 20px 50px;
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .app-header__title-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+    .app-header__separator {
+        display: none;
+    }
+
+    .municipality-info {
+        padding-right: 0;
+
+        border-right: none;
+    }
+
+    .dashboard-actions {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .toolbar-btn {
+        width: 100%;
+    }
+
+}

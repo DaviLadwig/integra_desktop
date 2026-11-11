@@ -1,0 +1,1638 @@
+/* =========================================================
+   DASHBOARD SIAPS
+   Vitória do Mearim
+========================================================= */
+
+
+/* =========================================================
+   ÁREA PRINCIPAL
+========================================================= */
+
+.dashboard-loaded {
+    width: 100%;
+}
+
+.dashboard-content {
+    width: 100%;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.dashboard-toolbar {
+    margin-bottom: 24px;
+    padding: 16px 18px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.dashboard-filter {
+    width: 100%;
+    max-width: 380px;
+}
+
+.dashboard-filter label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.7rem;
+    font-weight: 600;
+
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.dashboard-filter select {
+    width: 100%;
+    height: 44px;
+
+    padding: 0 38px 0 13px;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: 6px;
+
+    background: #ffffff;
+    color: var(--color-text);
+
+    font-size: 0.84rem;
+    font-weight: 500;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.dashboard-filter select:hover {
+    border-color: #aebdcd;
+}
+
+.dashboard-filter select:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(36, 85, 164, 0.08);
+}
+
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+.toolbar-btn {
+    height: 40px;
+
+    padding: 0 15px;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: 6px;
+
+    background: #ffffff;
+    color: var(--color-text-secondary);
+
+    font-size: 0.78rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.toolbar-btn:hover {
+    border-color: var(--color-primary);
+
+    background: rgba(36, 85, 164, 0.03);
+    color: var(--color-primary);
+}
+
+.toolbar-btn--danger {
+    border-color: rgba(239, 43, 45, 0.28);
+    color: #ad3d3e;
+}
+
+.toolbar-btn--danger:hover {
+    border-color: var(--color-red);
+
+    background: rgba(239, 43, 45, 0.04);
+    color: #982f31;
+}
+
+
+/* =========================================================
+   RESUMO DO DASHBOARD
+========================================================= */
+
+.dashboard-summary {
+    margin-bottom: 18px;
+    padding: 18px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 8px;
+}
+
+.dashboard-summary__eyebrow {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.dashboard-summary h2 {
+    margin: 0;
+
+    color: var(--color-primary-dark);
+
+    font-size: 1.18rem;
+    font-weight: 700;
+
+    line-height: 1.25;
+}
+
+.dashboard-summary__badge {
+    padding: 7px 11px;
+
+    border: 1px solid rgba(36, 85, 164, 0.14);
+    border-radius: 5px;
+
+    background: rgba(36, 85, 164, 0.06);
+    color: var(--color-primary);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   GRID DE INDICADORES
+========================================================= */
+
+.indicator-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   CARD DE INDICADOR
+========================================================= */
+
+.indicator-card {
+    min-height: 225px;
+
+    padding: 20px;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: var(--color-text);
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 14px rgba(23, 48, 79, 0.035);
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+.indicator-card:hover {
+    border-color: #bdcbd9;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 22px rgba(23, 48, 79, 0.07);
+
+    transform: translateY(-2px);
+}
+
+.indicator-card.is-active {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 2px rgba(36, 85, 164, 0.07),
+        0 8px 22px rgba(23, 48, 79, 0.06);
+}
+
+
+/* =========================================================
+   CONTEÚDO DO CARD
+========================================================= */
+
+.indicator-card__content {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+}
+
+
+/* =========================================================
+   CORES POR CATEGORIA
+========================================================= */
+
+.indicator-card[data-category="sem_domicilio"] {
+    border-top-color: var(--color-yellow);
+}
+
+.indicator-card[data-category="sem_acompanhamento"] {
+    border-top-color: var(--color-red);
+}
+
+.indicator-card[data-category="crianca"],
+.indicator-card[data-category="gestante"],
+.indicator-card[data-category="diabetes"],
+.indicator-card[data-category="hipertenso"],
+.indicator-card[data-category="idoso"],
+.indicator-card[data-category="mulher"] {
+    border-top-color: var(--color-secondary);
+}
+
+
+/* =========================================================
+   TOPO DO CARD
+========================================================= */
+
+.indicator-card__head {
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   ÍCONE
+========================================================= */
+
+.indicator-card__icon {
+    width: 54px;
+    height: 54px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(36, 85, 164, 0.12);
+    border-radius: 8px;
+
+    background: rgba(36, 85, 164, 0.055);
+    color: var(--color-primary);
+
+    flex-shrink: 0;
+}
+
+.indicator-card__icon svg {
+    width: 29px;
+    height: 29px;
+
+    fill: none;
+    stroke: currentColor;
+
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* SEM DOMICÍLIO */
+
+.indicator-card[data-category="sem_domicilio"]
+.indicator-card__icon {
+    color: #ad8800;
+
+    background: rgba(242, 204, 31, 0.11);
+
+    border-color:
+        rgba(242, 204, 31, 0.26);
+}
+
+
+/* SEM ACOMPANHAMENTO */
+
+.indicator-card[data-category="sem_acompanhamento"]
+.indicator-card__icon {
+    color: #bd4143;
+
+    background: rgba(239, 43, 45, 0.06);
+
+    border-color:
+        rgba(239, 43, 45, 0.16);
+}
+
+
+/* DEMAIS INDICADORES */
+
+.indicator-card[data-category="crianca"]
+.indicator-card__icon,
+
+.indicator-card[data-category="gestante"]
+.indicator-card__icon,
+
+.indicator-card[data-category="diabetes"]
+.indicator-card__icon,
+
+.indicator-card[data-category="hipertenso"]
+.indicator-card__icon,
+
+.indicator-card[data-category="idoso"]
+.indicator-card__icon,
+
+.indicator-card[data-category="mulher"]
+.indicator-card__icon {
+    color: var(--color-secondary);
+
+    background:
+        rgba(20, 152, 212, 0.055);
+
+    border-color:
+        rgba(20, 152, 212, 0.15);
+}
+
+
+/* =========================================================
+   VER DETALHES
+========================================================= */
+
+.indicator-card__open {
+    margin-top: 5px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.7rem;
+    font-weight: 400;
+
+    white-space: nowrap;
+
+    transition:
+        color 0.15s ease;
+}
+
+.indicator-card:hover
+.indicator-card__open {
+    color: var(--color-primary);
+}
+
+
+/* =========================================================
+   TÍTULO DO INDICADOR
+========================================================= */
+
+.indicator-card__label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--color-text);
+
+    font-size: 0.92rem;
+    font-weight: 600;
+
+    line-height: 1.25;
+
+    letter-spacing: 0.1px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   NÚMERO PRINCIPAL
+========================================================= */
+
+.indicator-card__value {
+    display: block;
+
+    color: var(--color-primary-dark);
+
+    font-size: 2.35rem;
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing: -0.6px;
+}
+
+.indicator-card__caption {
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   STATUS DOS CARDS
+========================================================= */
+
+.indicator-card__status {
+    margin-top: auto;
+    padding-top: 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+}
+
+.indicator-status {
+    min-height: 27px;
+
+    padding: 0 9px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    border-radius: 5px;
+
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.indicator-status strong {
+    font-weight: 700;
+}
+
+.indicator-status--pending {
+    background:
+        rgba(239, 43, 45, 0.07);
+
+    color: #aa3739;
+}
+
+.indicator-status--ok {
+    background:
+        rgba(47, 125, 80, 0.08);
+
+    color: #31754c;
+}
+
+
+/* =========================================================
+   BARRA DE COBERTURA
+========================================================= */
+
+.indicator-progress {
+    width: 100%;
+    height: 4px;
+
+    margin-top: 12px;
+
+    overflow: hidden;
+
+    background: #edf1f5;
+
+    border-radius: 4px;
+}
+
+.indicator-progress__bar {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--color-primary),
+            var(--color-secondary)
+        );
+
+    border-radius: 4px;
+}
+
+.indicator-card__coverage {
+    margin-top: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.68rem;
+}
+
+.indicator-card__coverage strong {
+    color: var(--color-text-secondary);
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   PAINEL DE DETALHAMENTO
+========================================================= */
+
+.indicator-detail {
+    margin-top: 24px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+
+    box-shadow:
+        0 8px 24px rgba(23, 48, 79, 0.05);
+}
+
+.indicator-detail__header {
+    padding: 20px 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom:
+        1px solid var(--color-border);
+}
+
+.indicator-detail__eyebrow {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.67rem;
+    font-weight: 600;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.indicator-detail__header h3 {
+    margin: 0;
+
+    color: var(--color-primary-dark);
+
+    font-size: 1.28rem;
+    font-weight: 700;
+}
+
+.indicator-detail__close {
+    height: 36px;
+
+    padding: 0 13px;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: 5px;
+
+    background: #ffffff;
+    color: var(--color-text-secondary);
+
+    font-size: 0.74rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.indicator-detail__close:hover {
+    border-color: var(--color-primary);
+
+    background:
+        rgba(36, 85, 164, 0.03);
+
+    color: var(--color-primary);
+}
+
+
+/* =========================================================
+   ABAS DO DETALHAMENTO
+========================================================= */
+
+.indicator-detail__tabs {
+    padding: 0 22px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+
+    overflow-x: auto;
+
+    border-bottom:
+        1px solid var(--color-border);
+}
+
+.indicator-tab {
+    min-height: 48px;
+
+    padding: 0 14px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
+    white-space: nowrap;
+
+    border: none;
+    border-bottom:
+        3px solid transparent;
+
+    background: transparent;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.76rem;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.indicator-tab span {
+    min-width: 23px;
+    height: 22px;
+
+    padding: 0 6px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 5px;
+
+    background: #eef2f7;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.66rem;
+    font-weight: 600;
+}
+
+.indicator-tab:hover {
+    color: var(--color-primary);
+}
+
+.indicator-tab.is-active {
+    color: var(--color-primary-dark);
+
+    border-bottom-color:
+        var(--color-primary);
+}
+
+.indicator-tab.is-active span {
+    background:
+        rgba(36, 85, 164, 0.08);
+
+    color: var(--color-primary);
+}
+
+.indicator-detail__content {
+    padding: 22px;
+}
+
+
+/* =========================================================
+   BOAS PRÁTICAS
+========================================================= */
+
+.good-practices__heading {
+    margin-bottom: 18px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.good-practices__heading > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.good-practices__heading span {
+    color: var(--color-text-muted);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.good-practices__heading strong {
+    color: var(--color-primary-dark);
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.good-practices__heading small {
+    color: var(--color-text-secondary);
+
+    font-size: 0.74rem;
+    font-weight: 400;
+}
+
+.good-practices__grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+
+/* =========================================================
+   CARD DE BOA PRÁTICA
+========================================================= */
+
+.good-practice-card {
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+
+    border: 1px solid var(--color-border);
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.good-practice-card:hover {
+    border-color: #b8c8da;
+
+    background: #fbfcfe;
+}
+
+.good-practice-card.is-active {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 2px rgba(36, 85, 164, 0.07);
+}
+
+.good-practice-card__label {
+    min-height: 38px;
+
+    color: var(--color-text);
+
+    font-size: 0.78rem;
+    font-weight: 500;
+
+    line-height: 1.45;
+}
+
+.good-practice-card__numbers {
+    margin-top: 12px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.good-practice-card__numbers > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.good-practice-card__numbers strong {
+    color: var(--color-primary-dark);
+
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.good-practice-card__numbers span {
+    color: var(--color-text-muted);
+
+    font-size: 0.66rem;
+}
+
+.good-practice-card__percentage {
+    padding: 5px 7px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(47, 125, 80, 0.08);
+
+    color: #31754c !important;
+
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+}
+
+.good-practice-card__progress {
+    width: 100%;
+    height: 4px;
+
+    margin-top: 11px;
+
+    overflow: hidden;
+
+    background: #edf1f5;
+
+    border-radius: 4px;
+}
+
+.good-practice-card__progress > div {
+    height: 100%;
+
+    background: var(--color-secondary);
+
+    border-radius: 4px;
+}
+
+
+/* =========================================================
+   PACIENTES DE UMA BOA PRÁTICA
+========================================================= */
+
+.good-practices__patients {
+    margin-top: 22px;
+    padding-top: 22px;
+
+    border-top:
+        1px solid var(--color-border);
+}
+
+.patients-section-heading {
+    margin-bottom: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.patients-section-heading > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.patients-section-heading span {
+    color: var(--color-text-muted);
+
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.patients-section-heading strong {
+    color: var(--color-primary-dark);
+
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.patients-section-heading > span {
+    min-width: 34px;
+    height: 28px;
+
+    padding: 0 9px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 5px;
+
+    background:
+        rgba(239, 43, 45, 0.07);
+
+    color: #aa3739;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TABELA DE PACIENTES
+========================================================= */
+
+.patient-list {
+    width: 100%;
+}
+
+.patient-list__toolbar {
+    margin-bottom: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.patient-search {
+    width: 100%;
+    max-width: 420px;
+    height: 40px;
+
+    padding: 0 13px;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: var(--color-text);
+
+    font-size: 0.78rem;
+    font-weight: 400;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.patient-search:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(36, 85, 164, 0.07);
+}
+
+.patient-list__count {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+.patient-list__count > span {
+    padding: 6px 8px;
+
+    border-radius: 5px;
+
+    background: #f0f3f7;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.patient-list__unidentified {
+    background:
+        rgba(242, 204, 31, 0.14) !important;
+
+    color: #8f7200 !important;
+}
+
+.patient-table-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid var(--color-border);
+    border-radius: 7px;
+}
+
+.patient-table {
+    width: 100%;
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    background: #ffffff;
+}
+
+.patient-table th {
+    padding: 11px 12px;
+
+    text-align: left;
+
+    background: #f7f9fc;
+
+    color: var(--color-text-secondary);
+
+    border-bottom:
+        1px solid var(--color-border);
+
+    font-size: 0.67rem;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.patient-table td {
+    padding: 12px;
+
+    color: var(--color-text-secondary);
+
+    border-bottom:
+        1px solid #edf1f5;
+
+    font-size: 0.76rem;
+    font-weight: 400;
+}
+
+.patient-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.patient-table tbody tr:hover {
+    background: #fafbfd;
+}
+
+.patient-table td:nth-child(2) {
+    color: var(--color-text);
+
+    font-weight: 500;
+}
+
+.patient-document {
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+
+    font-size: 0.72rem !important;
+}
+
+.patient-table tr.is-unidentified {
+    background:
+        rgba(242, 204, 31, 0.05);
+}
+
+.patient-warning {
+    padding: 4px 7px;
+
+    border-radius: 4px;
+
+    background:
+        rgba(242, 204, 31, 0.13);
+
+    color: #876d08;
+
+    font-size: 0.65rem;
+    font-weight: 500;
+}
+
+.patient-table__empty {
+    padding: 28px !important;
+
+    text-align: center !important;
+
+    color:
+        var(--color-text-muted) !important;
+}
+
+
+/* =========================================================
+   PÁGINA EQUIPES
+========================================================= */
+
+.teams-overview {
+    width: 100%;
+}
+
+.teams-overview__summary {
+    margin-bottom: 18px;
+    padding: 16px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+
+    border: 1px solid var(--color-border);
+    border-radius: 7px;
+}
+
+.teams-overview__summary span {
+    color: var(--color-text-secondary);
+
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.teams-overview__summary strong {
+    color: var(--color-primary-dark);
+
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.teams-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.team-card {
+    padding: 18px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-secondary);
+    border-radius: 8px;
+
+    box-shadow:
+        0 3px 12px rgba(23, 48, 79, 0.03);
+}
+
+.team-card__header {
+    margin-bottom: 16px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 14px;
+}
+
+.team-card__header span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.66rem;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.team-card__header h2 {
+    margin: 0;
+
+    color: var(--color-primary-dark);
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.team-card__ine {
+    padding: 5px 7px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(36, 85, 164, 0.07);
+
+    color:
+        var(--color-primary) !important;
+
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+}
+
+.team-card__stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+}
+
+.team-stat {
+    padding: 10px;
+
+    border-radius: 6px;
+
+    background: #f7f9fc;
+}
+
+.team-stat span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.66rem;
+    font-weight: 400;
+}
+
+.team-stat strong {
+    color: var(--color-primary-dark);
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.team-card__open {
+    width: 100%;
+    height: 38px;
+
+    margin-top: 14px;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: var(--color-primary);
+
+    font-size: 0.74rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.team-card__open:hover {
+    border-color: var(--color-primary);
+
+    background:
+        rgba(36, 85, 164, 0.03);
+}
+
+
+/* =========================================================
+   PÁGINA GERAL DE BOAS PRÁTICAS
+========================================================= */
+
+.practices-groups {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+.practice-group {
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.practice-group__header {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+
+    border-bottom:
+        1px solid var(--color-border);
+}
+
+.practice-group__header span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.67rem;
+    font-weight: 600;
+
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.practice-group__header h2 {
+    margin: 0;
+
+    color: var(--color-primary-dark);
+
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.practice-group__grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+.practice-summary-card {
+    padding: 14px;
+
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+
+    background: #fafbfd;
+}
+
+.practice-summary-card > span {
+    display: block;
+
+    min-height: 36px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.72rem;
+    font-weight: 500;
+
+    line-height: 1.4;
+}
+
+.practice-summary-card > strong {
+    display: block;
+
+    margin: 9px 0;
+
+    color: var(--color-primary-dark);
+
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.practice-summary-card__meta {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 8px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.64rem;
+}
+
+.practice-summary-card__progress {
+    width: 100%;
+    height: 4px;
+
+    margin-top: 10px;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+
+    background: #e8edf3;
+}
+
+.practice-summary-card__progress div {
+    height: 100%;
+
+    border-radius: 4px;
+
+    background: var(--color-secondary);
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .indicator-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+    .good-practices__grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .teams-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .practice-group__grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .dashboard-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .dashboard-filter {
+        max-width: none;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+    }
+
+    .toolbar-btn {
+        flex: 1;
+    }
+
+    .indicator-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .indicator-card {
+        min-height: 215px;
+    }
+
+    .dashboard-summary {
+        align-items: flex-start;
+    }
+
+    .indicator-detail__header {
+        align-items: flex-start;
+    }
+
+    .good-practices__heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .patient-list__toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .patient-search {
+        max-width: none;
+    }
+
+    .practice-group__grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .indicator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .indicator-card {
+        min-height: 205px;
+        padding: 18px;
+    }
+
+    .indicator-card__icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .indicator-card__icon svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .indicator-card__label {
+        font-size: 0.88rem;
+    }
+
+    .indicator-card__value {
+        font-size: 2.15rem;
+    }
+
+    .good-practices__grid,
+    .teams-grid,
+    .practice-group__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .indicator-detail__content {
+        padding: 16px;
+    }
+
+    .indicator-detail__header {
+        padding: 16px;
+    }
+
+    .indicator-detail__tabs {
+        padding: 0 14px;
+    }
+
+    .dashboard-summary {
+        flex-direction: column;
+    }
+
+    .dashboard-actions {
+        flex-direction: column;
+    }
+
+    .toolbar-btn {
+        width: 100%;
+        flex: none;
+    }
+
+}
+
+/* Base parcial importada diretamente do portal SIAPS */
+.indicator-card--unavailable {
+    cursor: default;
+    opacity: 0.58;
+    box-shadow: none;
+}
+
+.indicator-card--unavailable:hover {
+    transform: none;
+    border-color: var(--color-border);
+    box-shadow: none;
+}
+
+.team-stat--unavailable {
+    opacity: 0.55;
+}
