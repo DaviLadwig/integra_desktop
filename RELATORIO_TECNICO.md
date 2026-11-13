@@ -1,105 +1,90 @@
-# Relatório técnico — Integra Desktop Tauri 0.2.0
+# Relatório técnico — Integra Primeiro Acesso v2
 
-## Base utilizada
+## Objetivo
 
-Projeto reconstruído a partir da versão mais recente do Integra corrigida em 11/11/2026, contendo:
+Adicionar o novo modelo universal de usuários sem recompilar o aplicativo a cada novo acesso.
 
-- identidade Integra;
-- logos claro/escuro corrigidas;
-- `icone-sistema.png`;
-- isolamento de histórico e checklist por usuário;
-- correções de contraste do modo dark.
+## Arquivos criados
 
-## Ajuste adicional desta entrega
+### `assets/scripts/access-public-key.js`
+Expõe para o frontend a chave pública oficial e o `keyId` correspondente.
 
-Foi incorporada a correção da tela **Equipes** no modo escuro:
+### `assets/scripts/first-access.js`
+Implementa:
+- IndexedDB local de autenticação;
+- leitura do arquivo `.integra`;
+- validação estrutural do envelope;
+- validação RSA-SHA256 da assinatura;
+- leitura do payload assinado;
+- cadastro local do usuário;
+- bloqueio de reutilização da mesma credencial nesta instalação;
+- validação PBKDF2-HMAC-SHA256 da senha;
+- opção `Lembrar de mim` armazenando somente o usuário.
 
-- `teams-overview__summary` deixa de usar fundo branco;
-- card da equipe recebe fundo/bordas adequados ao tema;
-- textos secundários ganham contraste;
-- badge INE recebe contraste adequado;
-- estatísticas recebem fundo/borda escuros;
-- botão "Abrir na visão geral" recebe aparência escura e hover coerente.
+### `assets/security/chave-publica-integra.xml`
+Chave pública oficial fornecida pelo administrador do Integra. Pode ser distribuída no aplicativo.
 
-## Arquivos de aplicação
+## Arquivos alterados
 
-### `app/index.html`
-- Base funcional completa do Integra.
-- Inclui a correção CSS da tela Equipes no dark mode.
-- Mantém a separação dos bancos por usuário.
-- Mantém as referências para `logo-integra-light.png` e `logo-integra-dark.png`.
+### `index.html`
+- adicionada opção `Lembrar de mim`;
+- adicionado botão `Primeiro acesso`;
+- adicionado modal de importação `.integra`;
+- adicionados scripts `access-public-key.js` e `first-access.js`.
 
-### `app/styles/dark-fixes.css`
-- Recebeu o mesmo bloco de correção da tela Equipes para manter a fonte modular sincronizada.
+### `assets/scripts/auth.js`
+- autenticação passa a consultar primeiro usuários locais ativados por `.integra`;
+- mantém fallback para o `administrador` legado;
+- usa PBKDF2 para usuários novos e SHA-256 apenas para o legado;
+- integra `Lembrar de mim` no login/logout.
 
-### `app/acessos.js`
-- Mantido da base atual.
-- Usado pela autenticação offline.
+### `assets/scripts/accesses.js`
+- removido acesso de teste `fernando`;
+- mantido somente `administrador` durante a transição.
 
-### `app/images/icone-sistema.png`
-- Ícone oficial fornecido no sistema atual.
-- Fonte usada para gerar os ícones do Tauri/Windows.
+### `assets/styles/login.css`
+- estilos do `Lembrar de mim`;
+- botão `Primeiro acesso`;
+- modal de ativação;
+- mensagens de sucesso/erro.
 
-### `app/images/logo-integra-light.png`
-- Logo usada no modo claro.
+### `assets/styles/dark-fixes.css`
+- contraste completo do novo fluxo no modo escuro.
 
-### `app/images/logo-integra-dark.png`
-- Logo usada no modo escuro.
+## Segurança
 
-### `app/scripts/*`, `app/styles/*`, `app/vendor/*`
-- Preservados da base funcional atual.
+O aplicativo contém somente a chave pública. A chave privada continua exclusivamente no Integra Admin.
 
-## Arquivos Tauri criados/atualizados
+O arquivo `.integra` não contém a senha em texto aberto. Ele contém salt/hash PBKDF2 e payload assinado.
 
-### `src-tauri/tauri.conf.json`
-- Produto: `Integra`.
-- Identificador: `br.com.integra.producaoisolada`.
-- Janela inicial: 1440×900; mínimo 1024×680.
-- Bundle: NSIS.
-- WebView2: `offlineInstaller`.
-- Ícone do instalador/desinstalador: `icons/icon.ico`.
+A reutilização do mesmo `credentialId` é bloqueada na mesma instalação. Como o sistema é totalmente offline, não existe verificação global entre computadores diferentes.
 
-### `src-tauri/Cargo.toml`
-- Projeto Rust/Tauri 2.
-- Release com LTO e otimização de tamanho.
+## Testes realizados
 
-### `src-tauri/src/lib.rs` e `src-tauri/src/main.rs`
-- Inicialização mínima do aplicativo Tauri.
+- sintaxe de todos os JS via Node.js;
+- conferência de todos os assets referenciados pelo HTML;
+- importação WebCrypto da chave pública RSA de 3072 bits;
+- conferência do `keyId` calculado a partir da chave pública;
+- teste de compatibilidade PBKDF2-HMAC-SHA256 entre Python e WebCrypto;
+- parsing estrutural do HTML.
 
-### `src-tauri/icons/*`
-- Gerados a partir de `app/images/icone-sistema.png`.
+O teste final com uma credencial real `.integra` deve ser feito localmente pelo proprietário, sem necessidade de compartilhar o arquivo privado.
 
-### `.github/workflows/build-windows.yml`
-- Workflow manual para gerar o Setup.exe em runner Windows.
+## Integração Tauri
 
-### `BUILD_WINDOWS.cmd`
-- Build local simplificado.
+O frontend atualizado foi copiado integralmente para `app/`.
 
-## Ferramentas administrativas
+Versões atualizadas:
+- `package.json`: 0.3.0;
+- `src-tauri/Cargo.toml`: 0.3.0;
+- `src-tauri/tauri.conf.json`: 0.3.0.
 
-A pasta `admin-tools/` contém:
+O workflow `.github/workflows/build-windows.yml` continua gerando instalador NSIS para Windows.
 
-- `CRIAR_ACESSO.cmd`;
-- `criar_acesso.ps1`;
-- `acessos.json`;
-- `LEIA-ME.txt`.
 
-Ela não deve ser distribuída junto aos usuários finais.
+## Correção v0.3.1
 
-O arquivo `credenciais_criadas.txt` não está incluído porque pode conter senhas em texto legível.
-
-## Validações executadas
-
-- 16 blocos JavaScript internos do `index.html`: sintaxe válida via `node --check`.
-- Todos os arquivos de `app/scripts/*.js`: sintaxe válida.
-- `app/acessos.js`: sintaxe válida.
-- `package.json` e `tauri.conf.json`: JSON válido.
-- Logos clara/escura: presentes.
-- Ícone oficial e ícones Tauri/Windows: presentes.
-- Correção de Equipes no dark mode: presente no HTML e em `dark-fixes.css`.
-- Separação `siaps_local_history__usuario`: presente.
-- Separação `siaps_local_checklist__usuario`: presente.
-
-## Limitação do ambiente de geração
-
-O ambiente usado para preparar este pacote não possui Rust/Cargo nem o toolchain Windows. Por isso, o `Setup.exe` não foi compilado aqui. O projeto está preparado para build em Windows ou via GitHub Actions.
+- Corrigida a inicialização do módulo de primeiro acesso.
+- `initializeFirstAccessUi()` agora é chamado por `initializeApp()`.
+- O evento `change` do input `.integra` passa a ser registrado.
+- A preferência `Lembrar de mim` passa a ser inicializada corretamente.

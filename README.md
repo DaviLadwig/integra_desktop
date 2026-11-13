@@ -1,37 +1,26 @@
-# Integra Desktop — Tauri 0.2.0
+# Integra Desktop v0.3 — Primeiro acesso universal
 
-Aplicativo desktop offline baseado na versão mais recente do **Integra — Sistema de Produção Isolada**.
+Projeto Tauri pronto para gerar o instalador Windows do Integra.
 
-## O que esta versão preserva
+## Novidades desta versão
 
-- Login por usuário e senha.
-- Dados isolados por usuário no armazenamento local.
-- `administrador` preserva a base histórica legada.
-- Importação inteligente das planilhas SIAPS.
-- Histórico de competências.
-- Dashboard, Equipes, Boas práticas, Checklist, Relatórios e Painel BI.
-- Modo claro e modo escuro.
-- Logos Integra específicas para claro/escuro.
-- Ícone oficial `icone-sistema.png` convertido para os ícones do executável/instalador.
-- Correções de contraste do modo escuro, incluindo a tela Equipes.
+- frontend totalmente separado em `app/assets/`;
+- primeiro acesso por arquivo `.integra`;
+- validação da assinatura RSA-SHA256;
+- usuários novos salvos localmente;
+- `Lembrar de mim` guarda somente o usuário;
+- dados SIAPS continuam isolados pelo usuário autenticado;
+- modo dark e correções visuais preservados;
+- ícone oficial do Integra preservado no instalador.
 
-## Estrutura
+## Build no GitHub
 
-- `app/`: aplicação web offline empacotada pelo Tauri.
-- `src-tauri/`: projeto Rust/Tauri e configuração do instalador.
-- `admin-tools/`: ferramentas administrativas que não devem ser entregues aos usuários finais.
-- `.github/workflows/build-windows.yml`: build do instalador no GitHub Actions.
-- `BUILD_WINDOWS.cmd`: build local no Windows.
+1. Suba este conteúdo para a raiz do repositório.
+2. Faça commit e push.
+3. Abra **Actions** no GitHub.
+4. Execute **Gerar Integra para Windows**.
+5. Baixe o artifact `Integra-Windows`.
 
-## Armazenamento
+## Segurança
 
-Esta versão mantém o IndexedDB atual para reduzir risco de regressão. Os bancos são separados pelo nome do usuário autenticado:
-
-- `administrador`: mantém `siaps_local_history` e `siaps_local_checklist`.
-- outros usuários: `siaps_local_history__usuario` e `siaps_local_checklist__usuario`.
-
-Assim, um login novo inicia sem importar o histórico de outro acesso.
-
-## Observação sobre novos acessos após a instalação
-
-Na versão 0.2.0, a lista de credenciais é carregada de `app/acessos.js` e é empacotada no instalador. Portanto, novos acessos criados depois de um Setup já instalado exigem atualizar/recompilar o aplicativo. A migração da autenticação para armazenamento desktop gravável deve ser feita em uma etapa própria.
+A chave privada administrativa NÃO faz parte deste projeto. O aplicativo contém apenas a chave pública necessária para validar arquivos `.integra`.

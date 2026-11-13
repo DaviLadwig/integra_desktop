@@ -1,0 +1,492 @@
+/* =========================================================
+   REFINAMENTO DAS TELAS INTERNAS
+   Mantém a lógica atual; altera somente hierarquia e layout.
+========================================================= */
+
+.app-main {
+    min-height: calc(100vh - 150px);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(36, 85, 164, 0.025) 0,
+            rgba(36, 85, 164, 0) 220px
+        ),
+        var(--color-bg);
+}
+
+.page-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 32px 58px;
+}
+
+.page-container--wide {
+    max-width: 1400px;
+}
+
+.page-container--narrow {
+    max-width: 1020px;
+}
+
+/* ---------------------------------------------------------
+   CABEÇALHO PADRÃO DE CADA TELA
+--------------------------------------------------------- */
+
+.page-heading,
+.page-heading--compact {
+    position: relative;
+    margin: 0 0 18px;
+    padding: 24px 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 18px rgba(23, 48, 79, 0.035);
+}
+
+.page-heading::before,
+.page-heading--compact::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--color-primary),
+            var(--color-secondary)
+        );
+}
+
+.page-heading::after,
+.page-heading--compact::after {
+    content: "";
+
+    position: absolute;
+    right: -62px;
+    top: -82px;
+
+    width: 180px;
+    height: 180px;
+
+    border: 24px solid rgba(36, 85, 164, 0.025);
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.page-heading > div,
+.page-heading--compact > div {
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.page-eyebrow,
+.page-heading--compact .page-eyebrow {
+    display: block;
+
+    margin: 0 0 7px;
+
+    color: var(--color-primary);
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    line-height: 1.2;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.page-heading h1,
+.page-heading--compact h1 {
+    margin: 0 0 7px;
+
+    color: var(--color-primary-dark);
+
+    font-size: clamp(1.65rem, 2vw, 2rem);
+    font-weight: 700;
+
+    line-height: 1.12;
+    letter-spacing: -0.35px;
+}
+
+.page-heading p,
+.page-heading--compact p {
+    max-width: 760px;
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.9rem;
+    font-weight: 400;
+
+    line-height: 1.55;
+}
+
+.page-heading--actions {
+    align-items: center;
+}
+
+.page-heading__actions {
+    position: relative;
+    z-index: 1;
+
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.page-heading__actions .btn-primary,
+.page-heading__actions .btn-secondary {
+    min-height: 42px;
+    padding: 0 17px;
+}
+
+/* ---------------------------------------------------------
+   CONTEÚDO DAS TELAS
+--------------------------------------------------------- */
+
+.section-content {
+    width: 100%;
+    min-width: 0;
+}
+
+.dashboard-loaded,
+.teams-overview,
+.practices-groups,
+.checklist-shell,
+.reports-grid {
+    animation: none;
+}
+
+/* ---------------------------------------------------------
+   ESTADOS VAZIOS
+--------------------------------------------------------- */
+
+.empty-state {
+    min-height: 255px;
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+
+    padding: 34px 36px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #ffffff 68%,
+            #f7fafd 100%
+        );
+
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 18px rgba(23, 48, 79, 0.035);
+}
+
+.empty-state::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background: #c8d5e4;
+}
+
+.empty-state::after {
+    content: "";
+
+    position: absolute;
+    right: 42px;
+    top: 50%;
+
+    width: 130px;
+    height: 130px;
+
+    transform: translateY(-50%);
+
+    border: 22px solid rgba(36, 85, 164, 0.035);
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.empty-state--compact {
+    min-height: 215px;
+}
+
+.empty-state__content {
+    position: relative;
+    z-index: 1;
+
+    max-width: 650px;
+}
+
+.empty-state__eyebrow {
+    display: inline-flex;
+
+    margin-bottom: 10px;
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    background: rgba(36, 85, 164, 0.07);
+    color: var(--color-primary);
+
+    font-size: 0.64rem;
+    font-weight: 600;
+
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.empty-state__content h2 {
+    margin: 0 0 8px;
+
+    color: var(--color-primary-dark);
+
+    font-size: 1.35rem;
+    font-weight: 700;
+
+    line-height: 1.25;
+}
+
+.empty-state__content p {
+    max-width: 590px;
+
+    margin: 0 0 20px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.88rem;
+    font-weight: 400;
+
+    line-height: 1.6;
+}
+
+.empty-state__content .btn-primary,
+.empty-state__content .btn-secondary {
+    min-height: 42px;
+    padding: 0 16px;
+}
+
+/* ---------------------------------------------------------
+   BOTÕES
+--------------------------------------------------------- */
+
+.btn-primary,
+.btn-secondary {
+    min-height: 42px;
+    height: 42px;
+
+    padding: 0 16px;
+
+    border-radius: 7px;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.btn-primary {
+    box-shadow:
+        0 3px 8px rgba(36, 85, 164, 0.10);
+}
+
+.btn-primary:hover {
+    box-shadow:
+        0 5px 12px rgba(36, 85, 164, 0.14);
+}
+
+/* ---------------------------------------------------------
+   IMPORTAÇÃO
+--------------------------------------------------------- */
+
+.data-status-card {
+    border-radius: 9px;
+    box-shadow:
+        0 4px 14px rgba(23, 48, 79, 0.025);
+}
+
+.import-card,
+.history-card {
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 18px rgba(23, 48, 79, 0.03);
+}
+
+/* ---------------------------------------------------------
+   RELATÓRIOS
+--------------------------------------------------------- */
+
+.reports-grid {
+    gap: 14px;
+}
+
+.report-card {
+    min-height: 230px;
+}
+
+/* ---------------------------------------------------------
+   NAVEGAÇÃO
+--------------------------------------------------------- */
+
+.app-nav__inner {
+    gap: 4px;
+}
+
+.app-nav__item {
+    height: 50px;
+    padding: 0 17px;
+
+    font-size: 0.82rem;
+}
+
+.app-nav__item.is-active {
+    background:
+        linear-gradient(
+            to top,
+            rgba(36, 85, 164, 0.075),
+            rgba(36, 85, 164, 0.015)
+        );
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVO
+--------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .page-container,
+    .page-container--wide,
+    .page-container--narrow {
+        padding:
+            22px 20px 46px;
+    }
+
+    .page-heading,
+    .page-heading--compact,
+    .page-heading--actions {
+        padding: 21px 22px;
+
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+    .page-heading__actions {
+        width: 100%;
+        margin-left: 0;
+
+        justify-content: flex-start;
+    }
+
+    .empty-state {
+        min-height: 220px;
+        padding: 28px 26px;
+    }
+
+    .empty-state::after {
+        right: -24px;
+        opacity: 0.7;
+    }
+}
+
+@media (max-width: 560px) {
+    .page-container,
+    .page-container--wide,
+    .page-container--narrow {
+        padding:
+            18px 14px 38px;
+    }
+
+    .page-heading,
+    .page-heading--compact,
+    .page-heading--actions {
+        padding: 19px 18px;
+        border-radius: 8px;
+    }
+
+    .page-heading h1,
+    .page-heading--compact h1 {
+        font-size: 1.55rem;
+    }
+
+    .page-heading p,
+    .page-heading--compact p {
+        font-size: 0.84rem;
+    }
+
+    .page-heading__actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .page-heading__actions .btn-primary,
+    .page-heading__actions .btn-secondary {
+        width: 100%;
+    }
+
+    .empty-state,
+    .empty-state--compact {
+        min-height: 0;
+        padding: 24px 20px;
+    }
+
+    .empty-state::after {
+        display: none;
+    }
+
+    .empty-state__content h2 {
+        font-size: 1.2rem;
+    }
+
+    .app-nav__inner {
+        padding: 0 14px;
+        gap: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .app-nav__inner::-webkit-scrollbar {
+        display: none;
+    }
+
+    .app-nav__item {
+        flex: 0 0 auto;
+        height: 48px;
+        padding: 0 14px;
+    }
+}

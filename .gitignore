@@ -1,4 +1,11 @@
 node_modules/
 src-tauri/target/
 .DS_Store
-*.log
+Thumbs.db
+
+# Nunca versionar credenciais/segredos do Integra Admin
+*.integra
+credenciais-*.txt
+chave-privada-admin.bin
+usuarios_emitidos.json
+emissoes.log

@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: var(--color-bg);
+}
+
+:root {
+    /* Identidade municipal */
+    --color-primary: #2455a4;
+    --color-primary-dark: #183d78;
+    --color-primary-light: #3475c5;
+
+    --color-secondary: #0799d1;
+
+    --color-yellow: #ffd31f;
+    --color-red: #ef3038;
+
+    /* Interface */
+    --color-bg: #f4f7fa;
+    --color-surface: #ffffff;
+
+    --color-text: #17304f;
+    --color-text-secondary: #65758a;
+    --color-text-muted: #8c99aa;
+
+    --color-border: #dbe3ec;
+    --color-border-strong: #c8d3df;
+
+    /* Estados */
+    --color-success: #2f7d50;
+    --color-warning: #c48a14;
+    --color-danger: #b84444;
+
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+}

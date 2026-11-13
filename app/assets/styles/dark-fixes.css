@@ -1,0 +1,278 @@
+/* =========================================================
+   INTEGRA - DARK MODE: CONTRASTE DE HISTÓRICO E CHECKLIST
+========================================================= */
+html[data-theme="dark"] #sectionImport .upload-dropzone {
+    background: #0d1721 !important;
+    border-color: #49647e !important;
+}
+
+html[data-theme="dark"] #sectionImport .upload-dropzone__graphic {
+    background: #142231 !important;
+    border-color: #3d5872 !important;
+}
+
+html[data-theme="dark"] #sectionImport .upload-dropzone__content strong {
+    color: #e8f0f8 !important;
+}
+
+html[data-theme="dark"] #sectionImport .upload-dropzone__content span {
+    color: #9fb1c3 !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-item,
+html[data-theme="dark"] #sectionImport .history-item.is-active {
+    background: #101b26 !important;
+    border-color: #344b61 !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-item.is-active {
+    background: #12263a !important;
+    border-left-color: #6aa8f2 !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-item__main>strong {
+    color: #e7eef6 !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-item__meta,
+html[data-theme="dark"] #sectionImport .history-item__main>small {
+    color: #9fb0c1 !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-badge {
+    background: #192a39 !important;
+    border: 1px solid #354d63 !important;
+    color: #b7c5d3 !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-badge--period {
+    background: #15304a !important;
+    border-color: #2f5d88 !important;
+    color: #8fc0ff !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-action {
+    background: #111e2a !important;
+    border-color: #486077 !important;
+    color: #c3cfda !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-action--primary {
+    background: #4f92df !important;
+    border-color: #65a5ec !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] #sectionImport .history-action--danger {
+    background: #28191c !important;
+    border-color: #704047 !important;
+    color: #f0aeb3 !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-table-wrap,
+html[data-theme="dark"] #sectionChecklist .checklist-table {
+    background: #111c27 !important;
+    border-color: #30465a !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-table th,
+html[data-theme="dark"] #sectionChecklist .checklist-table th.checklist-table__patient {
+    background: #192a3a !important;
+    color: #d5e0ea !important;
+    border-color: #33495e !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-table td,
+html[data-theme="dark"] #sectionChecklist .checklist-table td.checklist-table__patient {
+    background: #111c27 !important;
+    color: #c5d0db !important;
+    border-color: #293d50 !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-table tbody tr:nth-child(even) td,
+html[data-theme="dark"] #sectionChecklist .checklist-table tbody tr:nth-child(even) td.checklist-table__patient {
+    background: #0f1923 !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-table tbody tr:hover td,
+html[data-theme="dark"] #sectionChecklist .checklist-table tbody tr:hover td.checklist-table__patient {
+    background: #182838 !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-patient__primary {
+    color: #eef4fa !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-patient__secondary,
+html[data-theme="dark"] #sectionChecklist .checklist-meta-cell {
+    color: #a9b8c6 !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-criterion-head span {
+    color: #cfe2f8 !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-check__box {
+    background: #0d1721 !important;
+    border-color: #55708a !important;
+    color: transparent !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-check:hover .checklist-check__box {
+    border-color: #78b3f4 !important;
+    box-shadow: 0 0 0 3px rgba(106, 168, 242, .10) !important;
+}
+
+html[data-theme="dark"] #sectionChecklist .checklist-check--source .checklist-check__box,
+html[data-theme="dark"] #sectionChecklist .checklist-check--local .checklist-check__box,
+html[data-theme="dark"] #sectionChecklist .checklist-check input:checked+.checklist-check__box {
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   INTEGRA - DARK MODE: TELA EQUIPES
+========================================================= */
+
+html[data-theme="dark"] #sectionTeams .teams-overview__summary {
+    background: #111c27 !important;
+    border-color: #33495e !important;
+}
+
+html[data-theme="dark"] #sectionTeams .teams-overview__summary span {
+    color: #9fb1c3 !important;
+}
+
+html[data-theme="dark"] #sectionTeams .teams-overview__summary strong {
+    color: #eaf2fa !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-card {
+    background: #111c27 !important;
+    border-color: #33495e !important;
+    border-top-color: #5da6ee !important;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.16) !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-card__header h2 {
+    color: #edf4fb !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-card__header span {
+    color: #91a6b9 !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-card__ine {
+    background: #142b42 !important;
+    border: 1px solid #294c6c !important;
+    color: #72b4ff !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-stat {
+    background: #0d1721 !important;
+    border: 1px solid #263b4e !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-stat span {
+    color: #8296a9 !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-stat strong {
+    color: #e2ebf4 !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-stat--unavailable {
+    opacity: 0.58;
+}
+
+html[data-theme="dark"] #sectionTeams .team-card__open {
+    background: #132438 !important;
+    border-color: #385775 !important;
+    color: #78b6f7 !important;
+}
+
+html[data-theme="dark"] #sectionTeams .team-card__open:hover {
+    background: #19324c !important;
+    border-color: #68aaf0 !important;
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   DARK MODE - PRIMEIRO ACESSO / LEMBRAR DE MIM
+========================================================= */
+html[data-theme="dark"] .lk-notice {
+    border-color: #315946 !important;
+    border-left-color: #4bb582 !important;
+    background: #0d2119 !important;
+    color: #98d7b8 !important;
+}
+
+html[data-theme="dark"] .integra-remember-option {
+    color: #9fb1c3 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-link {
+    color: #69bce7 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-link:hover {
+    color: #9ed8f4 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-modal {
+    background: rgba(2, 8, 13, .72) !important;
+}
+
+html[data-theme="dark"] .integra-first-access-dialog {
+    border-color: #34495d !important;
+    background: #101b26 !important;
+    box-shadow: 0 26px 70px rgba(0, 0, 0, .42) !important;
+}
+
+html[data-theme="dark"] .integra-first-access-close {
+    border-color: #34495d !important;
+    background: #142230 !important;
+    color: #a9bac9 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-eyebrow {
+    color: #69bce7 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-dialog h2 {
+    color: #f3f7fb !important;
+}
+
+html[data-theme="dark"] .integra-first-access-dialog > p {
+    color: #9fb1c3 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-note {
+    border-left-color: #4ba6d6 !important;
+    background: #0b1620 !important;
+    color: #93a8ba !important;
+}
+
+html[data-theme="dark"] .integra-first-access-choose {
+    border-color: #358fc1 !important;
+    background: #287fae !important;
+}
+
+html[data-theme="dark"] .integra-first-access-status.is-info {
+    border-color: #33495d !important;
+    background: #0b1620 !important;
+    color: #99afc1 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-status.is-success {
+    border-color: #315946 !important;
+    background: #0d2119 !important;
+    color: #98d7b8 !important;
+}
+
+html[data-theme="dark"] .integra-first-access-status.is-error {
+    border-color: #6e3d3a !important;
+    background: #281616 !important;
+    color: #e5aaa6 !important;
+}

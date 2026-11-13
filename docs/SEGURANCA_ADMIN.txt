@@ -1,0 +1,13 @@
+INTEGRA - AVISO DE SEGURANCA DO ADMIN
+=====================================
+
+Este repositorio/app contem somente a CHAVE PUBLICA usada para validar arquivos .integra.
+
+NAO envie ao GitHub e NAO copie para dentro deste projeto:
+- chave-privada-admin.bin
+- credenciais-*.txt
+- arquivos .integra emitidos para usuarios reais
+- registros administrativos privados
+
+Continue usando a pasta oficial do Integra Admin no computador onde a chave privada foi criada.
+A chave privada nao precisa e nao deve estar no aplicativo dos usuarios.
