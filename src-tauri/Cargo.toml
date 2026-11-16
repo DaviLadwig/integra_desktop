@@ -1,6 +1,6 @@
 [package]
 name = "integra-desktop"
-version = "0.3.1"
+version = "0.3.2"
 description = "Integra - Sistema de produção isolada"
 authors = ["Integra"]
 edition = "2021"
@@ -14,6 +14,8 @@ tauri-build = { version = "2", features = [] }
 
 [dependencies]
 tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
 
 [profile.release]
 panic = "abort"

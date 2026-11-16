@@ -9,11 +9,13 @@ Instale no Windows:
 3. Microsoft Visual Studio Build Tools com "Desktop development with C++".
 4. WebView2 Runtime para desenvolvimento.
 
-Depois, na raiz do projeto, execute:
+Na raiz do projeto, execute:
 
 ```bat
 BUILD_WINDOWS.cmd
 ```
+
+O script instala as dependências JavaScript, incluindo os plugins oficiais Tauri de diálogo e sistema de arquivos, e compila o instalador.
 
 O instalador NSIS será gerado em:
 
@@ -25,25 +27,22 @@ O instalador está configurado para incluir o instalador offline do WebView2, ev
 
 ## Opção 2 — GitHub Actions
 
-1. Suba a pasta completa para um repositório GitHub.
-2. Abra `Actions`.
-3. Selecione `Gerar Integra para Windows`.
-4. Clique em `Run workflow`.
-5. Ao terminar, baixe o artefato `Integra-Windows`.
+1. Suba a pasta completa para o repositório GitHub, substituindo a versão anterior.
+2. Faça commit e push.
+3. Abra `Actions`.
+4. Selecione `Gerar Integra para Windows`.
+5. Clique em `Run workflow`.
+6. Ao terminar, baixe o artefato `Integra-Windows`.
 
 ## Ícone
 
-O ícone é derivado de:
+O ícone oficial é preservado em `src-tauri/icons/` e é aplicado ao executável, instalador e atalhos.
 
-```text
-app/images/icone-sistema.png
-```
+## Testes obrigatórios depois de instalar
 
-E foi convertido para:
-
-```text
-src-tauri/icons/icon.ico
-src-tauri/icons/32x32.png
-src-tauri/icons/128x128.png
-src-tauri/icons/128x128@2x.png
-```
+- Exportar Excel do BI e abrir o `.xlsx` no Excel ou LibreOffice.
+- Baixar o PDF do relatório e abrir o arquivo.
+- Baixar o PDF do Checklist Assistencial.
+- Baixar novamente uma planilha original pelo histórico.
+- Cancelar uma janela "Salvar como" e confirmar que o Integra continua funcionando.
+- Repetir os testes sem conexão com a internet.

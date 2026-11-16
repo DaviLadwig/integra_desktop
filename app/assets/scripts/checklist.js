@@ -920,6 +920,11 @@ ${criteriaLegend ? `<div class="criteria">${criteriaLegend}</div>` : ''}
 
 async function imprimirChecklistAssistencial() {
 
+    if (typeof isIntegraTauriDesktop === 'function' && isIntegraTauriDesktop()) {
+        await baixarChecklistPDF();
+        return;
+    }
+
     try {
         const model = await buildChecklistExportModel();
         const printWindow = window.open('', '_blank', 'width=1300,height=850');
@@ -1191,21 +1196,17 @@ async function baixarChecklistPDF() {
         const model = await buildChecklistExportModel();
         const pages = buildChecklistPdfPages(model);
         const bytes = buildChecklistPdfBinary(pages);
-        const blob = new Blob([bytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
 
-        link.href = url;
-        link.download = buildChecklistPdfFileName(model);
-
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-
-        window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+        await saveIntegraFile({
+            title: 'Salvar checklist em PDF',
+            fileName: buildChecklistPdfFileName(model),
+            extension: 'pdf',
+            mimeType: 'application/pdf',
+            bytes
+        });
 
     } catch (error) {
         console.error('Erro ao gerar PDF do checklist:', error);
-        window.alert(error.message || 'Não foi possível gerar o PDF do checklist.');
+        window.alert(error.message || 'Não foi possível salvar o PDF do checklist.');
     }
 }

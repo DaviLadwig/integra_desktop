@@ -1,7 +1,7 @@
 {
   "name": "integra-desktop",
   "private": true,
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Integra - Sistema de produção isolada (desktop offline)",
   "scripts": {
     "tauri": "tauri",
@@ -10,5 +10,9 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.2"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-dialog": "^2.0.0",
+    "@tauri-apps/plugin-fs": "^2.0.0"
   }
 }

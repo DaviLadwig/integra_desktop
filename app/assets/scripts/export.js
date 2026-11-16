@@ -292,118 +292,85 @@ function buildReportModel() {
  * =========================================================
  */
 
-function exportarExcelAtual() {
+async function exportarExcelAtual() {
 
     if (!ensureExportData()) {
         return;
     }
 
     if (typeof XLSX === 'undefined') {
-
-        alert(
-            'A biblioteca XLSX não está disponível.'
-        );
-
+        window.alert('A biblioteca XLSX não está disponível.');
         return;
-
     }
 
-    const model = buildReportModel();
+    try {
+        const model = buildReportModel();
 
-    const resumo = model.categories.map(item => ({
-        Indicador: item.label,
-        Total: item.total,
-        Pendentes:
-            item.pending === null
-                ? ''
-                : item.pending,
-        Acompanhados:
-            item.accompanied === null
-                ? ''
-                : item.accompanied,
-        'Cobertura (%)':
-            item.coverage === null
-                ? ''
-                : item.coverage
-    }));
+        const resumo = model.categories.map(item => ({
+            Indicador: item.label,
+            Total: item.total,
+            Pendentes: item.pending === null ? '' : item.pending,
+            Acompanhados: item.accompanied === null ? '' : item.accompanied,
+            'Cobertura (%)': item.coverage === null ? '' : item.coverage
+        }));
 
-    const equipes = model.teams.map(team => ({
-        Equipe: team.equipe || '',
-        INE: team.ine || '',
-        'Sem domicílio': Number(team.sem_domicilio || 0),
-        'Sem acompanhamento': Number(team.sem_acompanhamento || 0),
-        Crianças: Number(team.crianca_total || 0),
-        Gestantes: Number(team.gestante_total || 0),
-        Diabéticos: Number(team.diabetes_total || 0),
-        Hipertensos: Number(team.hipertenso_total || 0),
-        Idosos: Number(team.idoso_total || 0),
-        Mulheres: Number(team.mulher_total || 0)
-    }));
+        const equipes = model.teams.map(team => ({
+            Equipe: team.equipe || '',
+            INE: team.ine || '',
+            'Sem domicílio': Number(team.sem_domicilio || 0),
+            'Sem acompanhamento': Number(team.sem_acompanhamento || 0),
+            Crianças: Number(team.crianca_total || 0),
+            Gestantes: Number(team.gestante_total || 0),
+            Diabéticos: Number(team.diabetes_total || 0),
+            Hipertensos: Number(team.hipertenso_total || 0),
+            Idosos: Number(team.idoso_total || 0),
+            Mulheres: Number(team.mulher_total || 0)
+        }));
 
-    const boasPraticas = model.practices.map(item => ({
-        Grupo: item.label,
-        'Conformidade (%)': item.coverage
-    }));
+        const boasPraticas = model.practices.map(item => ({
+            Grupo: item.label,
+            'Conformidade (%)': item.coverage
+        }));
 
-    const workbook = XLSX.utils.book_new();
+        const workbook = XLSX.utils.book_new();
+        const resumoSheet = XLSX.utils.json_to_sheet(resumo);
+        const equipesSheet = XLSX.utils.json_to_sheet(equipes);
+        const boasPraticasSheet = XLSX.utils.json_to_sheet(boasPraticas);
 
-    const resumoSheet =
-        XLSX.utils.json_to_sheet(resumo);
+        resumoSheet['!cols'] = [
+            { wch: 28 }, { wch: 12 }, { wch: 14 }, { wch: 16 }, { wch: 16 }
+        ];
+        equipesSheet['!cols'] = [
+            { wch: 34 }, { wch: 20 }, { wch: 16 }, { wch: 20 }, { wch: 12 },
+            { wch: 12 }, { wch: 12 }, { wch: 14 }, { wch: 12 }, { wch: 12 }
+        ];
+        boasPraticasSheet['!cols'] = [
+            { wch: 26 }, { wch: 18 }
+        ];
 
-    const equipesSheet =
-        XLSX.utils.json_to_sheet(equipes);
+        XLSX.utils.book_append_sheet(workbook, resumoSheet, 'Resumo');
+        XLSX.utils.book_append_sheet(workbook, equipesSheet, 'Equipes');
+        XLSX.utils.book_append_sheet(workbook, boasPraticasSheet, 'Boas_Praticas');
 
-    const boasPraticasSheet =
-        XLSX.utils.json_to_sheet(boasPraticas);
+        // Gera os bytes sem tentar iniciar um download interno do WebView.
+        const fileBytes = XLSX.write(workbook, {
+            bookType: 'xlsx',
+            type: 'array',
+            compression: true
+        });
 
-    resumoSheet['!cols'] = [
-        { wch: 28 },
-        { wch: 12 },
-        { wch: 14 },
-        { wch: 16 },
-        { wch: 16 }
-    ];
+        await saveIntegraFile({
+            title: 'Salvar relatório Excel',
+            fileName: buildReportFileName('xlsx'),
+            extension: 'xlsx',
+            mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            bytes: fileBytes
+        });
 
-    equipesSheet['!cols'] = [
-        { wch: 34 },
-        { wch: 20 },
-        { wch: 16 },
-        { wch: 20 },
-        { wch: 12 },
-        { wch: 12 },
-        { wch: 12 },
-        { wch: 14 },
-        { wch: 12 },
-        { wch: 12 }
-    ];
-
-    boasPraticasSheet['!cols'] = [
-        { wch: 26 },
-        { wch: 18 }
-    ];
-
-    XLSX.utils.book_append_sheet(
-        workbook,
-        resumoSheet,
-        'Resumo'
-    );
-
-    XLSX.utils.book_append_sheet(
-        workbook,
-        equipesSheet,
-        'Equipes'
-    );
-
-    XLSX.utils.book_append_sheet(
-        workbook,
-        boasPraticasSheet,
-        'Boas_Praticas'
-    );
-
-    XLSX.writeFile(
-        workbook,
-        buildReportFileName('xlsx')
-    );
+    } catch (error) {
+        console.error('Erro ao exportar Excel:', error);
+        window.alert(error.message || 'Não foi possível salvar o arquivo Excel.');
+    }
 
 }
 
@@ -1292,52 +1259,28 @@ function buildPdfBinary(pages) {
 }
 
 
-function baixarRelatorioPDF() {
+async function baixarRelatorioPDF() {
 
     if (!ensureExportData()) {
         return;
     }
 
     try {
-
         const model = buildReportModel();
         const pages = buildPdfPages(model);
         const bytes = buildPdfBinary(pages);
 
-        const blob = new Blob(
-            [bytes],
-            {
-                type: 'application/pdf'
-            }
-        );
-
-        const url = URL.createObjectURL(blob);
-
-        const link = document.createElement('a');
-
-        link.href = url;
-        link.download = buildReportFileName('pdf');
-
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-
-        window.setTimeout(
-            () => URL.revokeObjectURL(url),
-            1500
-        );
+        await saveIntegraFile({
+            title: 'Salvar relatório PDF',
+            fileName: buildReportFileName('pdf'),
+            extension: 'pdf',
+            mimeType: 'application/pdf',
+            bytes
+        });
 
     } catch (error) {
-
-        console.error(
-            'Erro ao gerar PDF:',
-            error
-        );
-
-        alert(
-            'Não foi possível gerar o PDF. Consulte o console para mais detalhes.'
-        );
-
+        console.error('Erro ao gerar PDF:', error);
+        window.alert(error.message || 'Não foi possível salvar o PDF do relatório.');
     }
 
 }
@@ -1352,6 +1295,11 @@ function baixarRelatorioPDF() {
 function imprimirRelatorio() {
 
     if (!ensureExportData()) {
+        return;
+    }
+
+    if (typeof isIntegraTauriDesktop === 'function' && isIntegraTauriDesktop()) {
+        baixarRelatorioPDF();
         return;
     }
 

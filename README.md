@@ -1,26 +1,41 @@
-# Integra Desktop v0.3 — Primeiro acesso universal
+# Integra Desktop v0.3.2 — exportações corrigidas
 
-Projeto Tauri pronto para gerar o instalador Windows do Integra.
+Projeto Tauri para gerar o instalador Windows do Integra.
 
-## Novidades desta versão
+## Correções desta versão
 
-- frontend totalmente separado em `app/assets/`;
-- primeiro acesso por arquivo `.integra`;
-- validação da assinatura RSA-SHA256;
-- usuários novos salvos localmente;
-- `Lembrar de mim` guarda somente o usuário;
-- dados SIAPS continuam isolados pelo usuário autenticado;
-- modo dark e correções visuais preservados;
-- ícone oficial do Integra preservado no instalador.
+- Exportação Excel usa geração de bytes (`XLSX.write`) e não o download interno do WebView.
+- Exportação de relatório PDF usa o mesmo fluxo de salvamento.
+- PDF do Checklist Assistencial usa o mesmo fluxo de salvamento.
+- Download da planilha XLSX original no histórico usa o mesmo fluxo.
+- No Tauri, o usuário escolhe o destino em uma janela nativa **Salvar como** do Windows.
+- Em `localhost`/navegador, permanece o download tradicional por Blob.
+- As exportações são geradas localmente e funcionam sem internet.
+- Os botões de impressão no Tauri direcionam para a geração do PDF, evitando depender de janelas popup do WebView.
 
-## Build no GitHub
+## Tipos de arquivo contemplados
 
-1. Suba este conteúdo para a raiz do repositório.
+| Ação | Arquivo |
+|---|---|
+| Exportar relatório do BI | `.xlsx` com abas Resumo, Equipes e Boas_Praticas |
+| Baixar relatório | `.pdf` |
+| Baixar Checklist Assistencial | `.pdf` |
+| Baixar arquivo original do histórico | `.xlsx` |
+
+## Gerar o instalador Windows
+
+1. Substitua o conteúdo do repositório pelo conteúdo deste ZIP, preservando a pasta `.git`.
 2. Faça commit e push.
 3. Abra **Actions** no GitHub.
 4. Execute **Gerar Integra para Windows**.
 5. Baixe o artifact `Integra-Windows`.
 
-## Segurança
+O workflow instala as dependências Tauri e gera o instalador NSIS.
 
-A chave privada administrativa NÃO faz parte deste projeto. O aplicativo contém apenas a chave pública necessária para validar arquivos `.integra`.
+## Segurança de arquivos
+
+O Integra não recebe permissão irrestrita para gravar em todo o computador. A janela nativa de salvamento solicita que o usuário escolha o destino; a permissão de escrita é usada para gravar o arquivo escolhido. O aplicativo não envia planilhas nem relatórios para a internet.
+
+## Internet
+
+A internet não é necessária para importar planilhas, gerar Excel, gerar PDF, imprimir via PDF, consultar o histórico ou utilizar o Checklist. O aplicativo permanece local; conectividade poderá ser usada futuramente para atualizações ou serviços opcionais.

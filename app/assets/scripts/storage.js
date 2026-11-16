@@ -1295,19 +1295,18 @@ function bindHistoryListEvents() {
                 return;
             }
 
-            const blob = new Blob(
-                [record.fileBytes],
-                { type: record.mimeType || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
-            );
-
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = record.fileName || 'siaps.xlsx';
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+            try {
+                await saveIntegraFile({
+                    title: 'Salvar planilha original',
+                    fileName: record.fileName || 'siaps.xlsx',
+                    extension: 'xlsx',
+                    mimeType: record.mimeType || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    bytes: record.fileBytes
+                });
+            } catch (error) {
+                console.error('Erro ao baixar planilha do histórico:', error);
+                window.alert(error.message || 'Não foi possível salvar a planilha original.');
+            }
         });
     });
 

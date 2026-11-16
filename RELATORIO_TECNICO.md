@@ -1,90 +1,100 @@
-# Relatório técnico — Integra Primeiro Acesso v2
+# Relatório técnico — Integra Desktop v0.3.2
 
 ## Objetivo
 
-Adicionar o novo modelo universal de usuários sem recompilar o aplicativo a cada novo acesso.
+Corrigir as exportações no aplicativo Tauri. O frontend anterior gerava Blob e acionava links HTML com `download`; essa abordagem não é suficiente como mecanismo confiável de salvamento no WebView desktop. A nova versão usa a janela nativa **Salvar como** e grava o conteúdo no caminho escolhido.
+
+## Funcionalidades corrigidas
+
+1. Exportar relatório BI para Excel (`.xlsx`).
+2. Baixar relatório consolidado em PDF (`.pdf`).
+3. Baixar Checklist Assistencial em PDF (`.pdf`).
+4. Baixar o XLSX original armazenado no histórico.
+5. Botões de impressão: no Tauri, direcionam para gerar e salvar o PDF; em navegador/localhost, preservam o fluxo de impressão em nova janela.
 
 ## Arquivos criados
 
-### `assets/scripts/access-public-key.js`
-Expõe para o frontend a chave pública oficial e o `keyId` correspondente.
+### `app/assets/scripts/file-export.js`
 
-### `assets/scripts/first-access.js`
-Implementa:
-- IndexedDB local de autenticação;
-- leitura do arquivo `.integra`;
-- validação estrutural do envelope;
-- validação RSA-SHA256 da assinatura;
-- leitura do payload assinado;
-- cadastro local do usuário;
-- bloqueio de reutilização da mesma credencial nesta instalação;
-- validação PBKDF2-HMAC-SHA256 da senha;
-- opção `Lembrar de mim` armazenando somente o usuário.
+Camada única de salvamento:
+- detecta execução no Tauri;
+- abre `window.__TAURI__.dialog.save` com nome sugerido e filtro de extensão;
+- grava bytes com `window.__TAURI__.fs.writeFile`;
+- trata cancelamento do usuário;
+- mantém fallback com Blob e link de download em navegador/localhost;
+- aceita `ArrayBuffer`, `Uint8Array`, views binárias e arrays de bytes.
 
-### `assets/security/chave-publica-integra.xml`
-Chave pública oficial fornecida pelo administrador do Integra. Pode ser distribuída no aplicativo.
+### `src-tauri/capabilities/default.json`
+
+Concede somente as permissões necessárias para a janela principal:
+- `core:default`;
+- `dialog:allow-save`;
+- `fs:allow-write-file`.
+
+O caminho de destino é escolhido pelo próprio usuário na janela nativa de salvamento.
 
 ## Arquivos alterados
 
-### `index.html`
-- adicionada opção `Lembrar de mim`;
-- adicionado botão `Primeiro acesso`;
-- adicionado modal de importação `.integra`;
-- adicionados scripts `access-public-key.js` e `first-access.js`.
+### `app/index.html`
 
-### `assets/scripts/auth.js`
-- autenticação passa a consultar primeiro usuários locais ativados por `.integra`;
-- mantém fallback para o `administrador` legado;
-- usa PBKDF2 para usuários novos e SHA-256 apenas para o legado;
-- integra `Lembrar de mim` no login/logout.
+Inclui `assets/scripts/file-export.js` depois de `utils.js` e antes dos módulos que utilizam a rotina de salvamento.
 
-### `assets/scripts/accesses.js`
-- removido acesso de teste `fernando`;
-- mantido somente `administrador` durante a transição.
+### `app/assets/scripts/export.js`
 
-### `assets/styles/login.css`
-- estilos do `Lembrar de mim`;
-- botão `Primeiro acesso`;
-- modal de ativação;
-- mensagens de sucesso/erro.
+- `exportarExcelAtual()` passou a ser assíncrona;
+- workbook é serializado com `XLSX.write(..., { bookType: 'xlsx', type: 'array' })`;
+- removido o uso de `XLSX.writeFile()` para não depender do download interno do WebView;
+- `baixarRelatorioPDF()` envia os bytes do PDF para `saveIntegraFile()`;
+- em Tauri, `imprimirRelatorio()` encaminha para gerar/salvar o PDF em vez de abrir popup.
 
-### `assets/styles/dark-fixes.css`
-- contraste completo do novo fluxo no modo escuro.
+### `app/assets/scripts/checklist.js`
 
-## Segurança
+- `baixarChecklistPDF()` envia os bytes para `saveIntegraFile()`;
+- em Tauri, `imprimirChecklistAssistencial()` encaminha para gerar/salvar o PDF, evitando popup.
 
-O aplicativo contém somente a chave pública. A chave privada continua exclusivamente no Integra Admin.
+### `app/assets/scripts/storage.js`
 
-O arquivo `.integra` não contém a senha em texto aberto. Ele contém salt/hash PBKDF2 e payload assinado.
+O botão `data-history-download` usa `saveIntegraFile()` para salvar o XLSX original recuperado do IndexedDB.
 
-A reutilização do mesmo `credentialId` é bloqueada na mesma instalação. Como o sistema é totalmente offline, não existe verificação global entre computadores diferentes.
+### `src-tauri/Cargo.toml`
 
-## Testes realizados
+Adiciona os plugins Rust oficiais:
+- `tauri-plugin-dialog = "2"`;
+- `tauri-plugin-fs = "2"`.
 
-- sintaxe de todos os JS via Node.js;
-- conferência de todos os assets referenciados pelo HTML;
-- importação WebCrypto da chave pública RSA de 3072 bits;
-- conferência do `keyId` calculado a partir da chave pública;
-- teste de compatibilidade PBKDF2-HMAC-SHA256 entre Python e WebCrypto;
-- parsing estrutural do HTML.
+Atualiza a versão do pacote Rust para `0.3.2`.
 
-O teste final com uma credencial real `.integra` deve ser feito localmente pelo proprietário, sem necessidade de compartilhar o arquivo privado.
+### `src-tauri/src/lib.rs`
 
-## Integração Tauri
+Registra os plugins de diálogo nativo e sistema de arquivos no builder Tauri.
 
-O frontend atualizado foi copiado integralmente para `app/`.
+### `src-tauri/tauri.conf.json`
 
-Versões atualizadas:
-- `package.json`: 0.3.0;
-- `src-tauri/Cargo.toml`: 0.3.0;
-- `src-tauri/tauri.conf.json`: 0.3.0.
+- versão atualizada para `0.3.2`;
+- habilita `app.withGlobalTauri` para o frontend estático acessar as APIs globais dos plugins.
 
-O workflow `.github/workflows/build-windows.yml` continua gerando instalador NSIS para Windows.
+### `package.json`
 
+- versão atualizada para `0.3.2`;
+- adiciona `@tauri-apps/plugin-dialog` e `@tauri-apps/plugin-fs`.
 
-## Correção v0.3.1
+### Documentação
 
-- Corrigida a inicialização do módulo de primeiro acesso.
-- `initializeFirstAccessUi()` agora é chamado por `initializeApp()`.
-- O evento `change` do input `.integra` passa a ser registrado.
-- A preferência `Lembrar de mim` passa a ser inicializada corretamente.
+`README.md` e `BUILD_WINDOWS.md` atualizados com o novo fluxo de exportação e roteiro de testes.
+
+## Funcionamento offline
+
+A geração de Excel e PDF ocorre no próprio computador. Não há upload, API externa, CDN ou serviço hospedado envolvido nas exportações. A internet não é necessária para salvar os arquivos.
+
+## Testes realizados nesta entrega
+
+- verificação de sintaxe dos scripts JavaScript com Node.js;
+- validação dos JSONs de configuração e capability;
+- validação de referências locais do `index.html`;
+- teste de serialização XLSX em memória;
+- teste de estrutura PDF em memória;
+- teste da rotina comum de salvamento com ambiente Tauri simulado e fallback de navegador.
+
+## Limitação de build
+
+Este ambiente não gera o instalador Windows final. O build real dos plugins e do instalador será executado pelo workflow `build-windows.yml` em `windows-latest`. Depois de instalar, é necessário executar o roteiro em `BUILD_WINDOWS.md` no computador Windows.

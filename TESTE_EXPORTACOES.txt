@@ -1,0 +1,30 @@
+INTEGRA — TESTE DE EXPORTAÇÕES
+================================
+
+Esta atualização corrige o salvamento de arquivos no aplicativo desktop.
+
+TESTES NO INTEGRA DESKTOP (TAURI)
+
+1. Entre com um usuário que tenha uma base SIAPS carregada.
+2. Abra o Painel BI e clique em Exportar Excel.
+3. Na janela do Windows, escolha a pasta e confirme o nome do arquivo .xlsx.
+4. Abra o arquivo no Excel ou LibreOffice e confira as abas:
+   - Resumo
+   - Equipes
+   - Boas_Praticas
+5. Clique em Baixar relatório PDF e salve o arquivo.
+6. Abra o PDF e confira se ele contém as páginas do relatório.
+7. Abra Checklist e clique em Baixar PDF; salve e abra o arquivo.
+8. No histórico, clique em Baixar XLSX em uma base importada anteriormente.
+9. Repita uma exportação, mas feche a janela Salvar como sem escolher local.
+   O aplicativo deve continuar funcionando normalmente.
+
+TESTE DE OPERAÇÃO OFFLINE
+
+Depois de abrir o Integra e carregar uma base, desligue a internet e repita
+os testes de Excel e PDF. A geração e o salvamento são locais.
+
+OBSERVAÇÃO
+
+No localhost/navegador, o sistema mantém o download tradicional do navegador.
+No aplicativo Tauri, é exibida a janela nativa Salvar como do Windows.
