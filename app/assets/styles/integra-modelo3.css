@@ -1,0 +1,66 @@
+/* Integra Modelo 3 — dark grafite, rail de ícones com expansão por hover.
+   Somente apresentação: mantém data-section e lógica de navegação. */
+@media (hover: hover) and (min-width: 901px) {
+  .app-shell { padding-left: 64px !important; }
+  .app-nav {
+    position: fixed !important; inset: 0 auto 0 0 !important;
+    width: 64px !important; height: 100vh !important; padding: 84px 8px 16px !important;
+    transform: none !important; border: 0 !important; border-right: 1px solid #292b32 !important;
+    border-radius: 0 !important; background: #17181d !important;
+    box-shadow: none !important; z-index: 110 !important;
+    transition: width .2s ease, box-shadow .2s ease !important;
+  }
+  .app-nav::after { display: none !important; }
+  .app-nav:hover, .app-nav:focus-within { width: 224px !important; box-shadow: 12px 0 28px #0005 !important; }
+  .app-nav__inner { padding: 0 !important; gap: 7px !important; overflow-x: hidden !important; }
+  .app-nav__item {
+    width: 100% !important; min-width: 0 !important; height: 46px !important;
+    min-height: 46px !important; padding: 0 12px !important; gap: 15px !important;
+    border: 0 !important; border-radius: 9px !important; white-space: nowrap !important;
+    color: #a2a5b0 !important; background: transparent !important;
+    box-shadow: none !important; flex: 0 0 auto !important;
+  }
+  .app-nav__item:hover { color: #fff !important; background: #292b32 !important; }
+  .app-nav__item.is-active { color: #fff !important; background: #087bfa !important; }
+  .nav-icon { width: 22px; height: 22px; flex: 0 0 22px; }
+  .nav-label { opacity: 0; visibility: hidden; transition: opacity .12s ease; font-size: 13px; }
+  .app-nav:hover .nav-label, .app-nav:focus-within .nav-label { opacity: 1; visibility: visible; }
+  .app-header { min-height: 68px !important; padding: 10px 24px !important; }
+  .app-header__brand { gap: 14px !important; }
+  .app-header__divider { height: 28px !important; }
+  .app-header .integra-logo-switch img { max-height: 42px !important; }
+  .app-main { min-height: calc(100vh - 68px) !important; }
+  .page-container { max-width: 1600px !important; padding: 26px 24px 52px !important; }
+}
+@media (hover: none), (max-width: 900px) {
+  .nav-icon { width: 19px; height: 19px; flex: 0 0 19px; }
+  .nav-label { display: inline; }
+  .app-nav__item { display: inline-flex !important; align-items: center; gap: 8px; }
+}
+/* Paleta fiel à referência selecionada, sem alterar o modo claro. */
+html[data-theme="dark"] {
+  --color-bg: #141519;
+  --color-surface: #1b1c21;
+  --color-border: #2c2e35;
+  --color-border-strong: #383b44;
+  --color-text: #f1f2f5;
+  --color-text-secondary: #b1b3be;
+  --color-primary: #087bfa;
+  --color-primary-dark: #f1f2f5;
+  --siaps-bg: #141519;
+  --siaps-surface: #1b1c21;
+  --siaps-surface-soft: #24262b;
+  --siaps-line: #31333a;
+  --siaps-line-strong: #41434d;
+  --siaps-text: #f1f2f5;
+  --siaps-muted: #a6a9b4;
+  --siaps-blue: #1684ff;
+  --siaps-blue-soft: #192c46;
+}
+html[data-theme="dark"] .app-header { background: #1b1c21 !important; border-top: 0 !important; border-bottom-color: #2b2d33 !important; }
+html[data-theme="dark"] .app-nav { background: #17181d !important; }
+html[data-theme="dark"] .app-section,
+html[data-theme="dark"] .app-main,
+html[data-theme="dark"] .app-shell { background: #141519 !important; }
+html[data-theme="dark"] .app-section .page-container > .page-heading { border-color: #30323a; }
+@media (prefers-reduced-motion: reduce) { .app-nav, .nav-label { transition: none !important; } }
