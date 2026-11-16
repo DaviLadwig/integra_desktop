@@ -11,7 +11,7 @@
     transition: width .2s ease, box-shadow .2s ease !important;
   }
   .app-nav::after { display: none !important; }
-  .app-nav:hover, .app-nav:focus-within { width: 224px !important; box-shadow: 12px 0 28px #0005 !important; }
+  .app-nav:hover, .app-nav:has(.app-nav__item:focus-visible) { width: 224px !important; box-shadow: 12px 0 28px #0005 !important; }
   .app-nav__inner { padding: 0 !important; gap: 7px !important; overflow-x: hidden !important; }
   .app-nav__item {
     width: 100% !important; min-width: 0 !important; height: 46px !important;
@@ -24,7 +24,7 @@
   .app-nav__item.is-active { color: #fff !important; background: #087bfa !important; }
   .nav-icon { width: 22px; height: 22px; flex: 0 0 22px; }
   .nav-label { opacity: 0; visibility: hidden; transition: opacity .12s ease; font-size: 13px; }
-  .app-nav:hover .nav-label, .app-nav:focus-within .nav-label { opacity: 1; visibility: visible; }
+  .app-nav:hover .nav-label, .app-nav:has(.app-nav__item:focus-visible) .nav-label { opacity: 1; visibility: visible; }
   .app-header { min-height: 68px !important; padding: 10px 24px !important; }
   .app-header__brand { gap: 14px !important; }
   .app-header__divider { height: 28px !important; }
