@@ -552,7 +552,7 @@ function pdfDrawHeader(
         595.28,
         92,
         {
-            fill: '#183d78'
+            fill: '#101923'
         }
     );
 
@@ -563,7 +563,7 @@ function pdfDrawHeader(
         595.28,
         4,
         {
-            fill: '#0799d1'
+            fill: '#6aa8f2'
         }
     );
 
@@ -575,7 +575,7 @@ function pdfDrawHeader(
         8,
         {
             bold: true,
-            color: '#d8e7f7'
+            color: '#dce6f0'
         }
     );
 
@@ -598,7 +598,7 @@ function pdfDrawHeader(
         71,
         9,
         {
-            color: '#d8e7f7'
+            color: '#dce6f0'
         }
     );
 
@@ -621,7 +621,7 @@ function pdfDrawHeader(
         58,
         8,
         {
-            color: '#d8e7f7'
+            color: '#dce6f0'
         }
     );
 
@@ -724,7 +724,7 @@ function pdfDrawKpi(
         20,
         {
             bold: true,
-            color: '#183d78'
+            color: '#172b40'
         }
     );
 
@@ -746,7 +746,7 @@ function pdfDrawSectionTitle(
         12,
         {
             bold: true,
-            color: '#183d78'
+            color: '#172b40'
         }
     );
 
@@ -1280,7 +1280,11 @@ async function baixarRelatorioPDF() {
 
     } catch (error) {
         console.error('Erro ao gerar PDF:', error);
-        window.alert(error.message || 'Não foi possível salvar o PDF do relatório.');
+        if (typeof showIntegraToast === 'function') {
+            showIntegraToast(error.message || 'Não foi possível salvar o PDF do relatório.', 'error');
+        } else {
+            window.alert(error.message || 'Não foi possível salvar o PDF do relatório.');
+        }
     }
 
 }
@@ -1415,8 +1419,8 @@ function buildPrintableReportHtml(model) {
             padding: 22px 24px;
             margin-bottom: 18px;
             color: #ffffff;
-            background: #183d78;
-            border-bottom: 4px solid #0799d1;
+            background: #101923;
+            border-bottom: 4px solid #6aa8f2;
         }
 
         .header__top {
@@ -1468,12 +1472,12 @@ function buildPrintableReportHtml(model) {
             margin-bottom: 15px;
             padding: 10px 12px;
             border: 1px solid #dbe3ec;
-            border-left: 4px solid #2455a4;
-            background: #f8fafc;
+            border-left: 4px solid #6aa8f2;
+            background: #ffffff;
         }
 
         .meta strong {
-            color: #183d78;
+            color: #172b40;
         }
 
         .meta div + div {
@@ -1491,7 +1495,7 @@ function buildPrintableReportHtml(model) {
             min-height: 72px;
             padding: 11px 12px;
             border: 1px solid #dbe3ec;
-            border-left: 4px solid #2455a4;
+            border-left: 4px solid #6aa8f2;
             background: #ffffff;
         }
 
@@ -1510,7 +1514,7 @@ function buildPrintableReportHtml(model) {
         .kpi strong {
             display: block;
             margin-top: 9px;
-            color: #183d78;
+            color: #172b40;
             font-size: 20px;
         }
 
@@ -1521,7 +1525,7 @@ function buildPrintableReportHtml(model) {
 
         .section h2 {
             margin: 0 0 4px;
-            color: #183d78;
+            color: #172b40;
             font-size: 15px;
         }
 
@@ -1591,8 +1595,8 @@ function buildPrintableReportHtml(model) {
         .print-actions button {
             height: 34px;
             padding: 0 12px;
-            border: 1px solid #2455a4;
-            background: #2455a4;
+            border: 1px solid #172b40;
+            background: #172b40;
             color: #ffffff;
             font: inherit;
             font-weight: 600;

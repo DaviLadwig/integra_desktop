@@ -1,49 +1,143 @@
+/* =========================================================
+   INTEGRA — NAVEGAÇÃO LATERAL RETRÁTIL
+   A área estreita na borda esquerda funciona como acionador.
+   O menu também abre por teclado via :focus-within.
+========================================================= */
 .app-nav {
-    background: #ffffff;
-    border-bottom: 1px solid var(--color-border);
+    position: fixed;
+    top: 112px;
+    left: 0;
+    bottom: 18px;
+    z-index: 90;
+    width: 264px;
+    padding: 12px 10px;
+    overflow: visible;
+    background: #101923;
+    border: 1px solid #293a4c;
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .22);
+    transform: translateX(calc(-100% + 18px));
+    transition: transform .22s ease, box-shadow .22s ease;
+    will-change: transform;
+}
+
+.app-nav:hover,
+.app-nav:focus-within,
+.app-nav.is-pinned {
+    transform: translateX(0);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, .28);
+}
+
+.app-nav::after {
+    content: "›";
+    position: absolute;
+    top: 22px;
+    right: -18px;
+    width: 18px;
+    height: 66px;
+    display: grid;
+    place-items: center;
+    color: #a9cfff;
+    font-size: 25px;
+    line-height: 1;
+    border: 1px solid #293a4c;
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+    background: #101923;
+    box-shadow: 5px 4px 12px rgba(0, 0, 0, .12);
+    pointer-events: none;
 }
 
 .app-nav__inner {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 32px;
-
+    height: 100%;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px 0;
 }
 
 .app-nav__item {
-    height: 48px;
-    padding: 0 16px;
-
-    border: none;
-    border-bottom: 3px solid transparent;
+    position: relative;
+    width: 100%;
+    min-height: 46px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    border: 1px solid transparent;
+    border-radius: 7px;
     background: transparent;
-    color: var(--color-text-secondary);
-
-    font-size: 0.84rem;
+    color: #aebdca;
+    font: inherit;
+    font-size: .86rem;
     font-weight: 500;
-
     cursor: pointer;
-    transition:
-        color 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease;
+    transition: color .15s ease, background .15s ease, border-color .15s ease;
 }
 
 .app-nav__item:hover {
-    color: var(--color-primary-dark);
-    background: rgba(36, 85, 164, 0.04);
+    color: #f1f6fb;
+    background: #192a3a;
+    border-color: #2c4054;
 }
 
 .app-nav__item.is-active {
-    color: var(--color-primary-dark);
-    border-bottom-color: var(--color-primary);
-    background:
-        linear-gradient(to top,
-            rgba(36, 85, 164, 0.06),
-            rgba(36, 85, 164, 0.02));
+    color: #ffffff;
+    background: #1b3550;
+    border-color: #355575;
+    box-shadow: inset 3px 0 0 #6aa8f2;
+}
+
+.app-nav__item:focus-visible {
+    outline: 2px solid #8fc0ff;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-nav { transition: none; }
+}
+
+/* Em telas touch não existe cursor para acionar a gaveta.
+   O menu permanece acessível como navegação horizontal. */
+@media (hover: none), (max-width: 900px) {
+    .app-nav {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        width: 100%;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        transform: none;
+        background: #101923;
+    }
+
+    .app-nav::after { display: none; }
+
+    .app-nav__inner {
+        height: auto;
+        padding: 6px 12px;
+        flex-direction: row;
+        align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .app-nav__item {
+        width: auto;
+        min-width: max-content;
+        min-height: 42px;
+        padding: 0 13px;
+        white-space: nowrap;
+    }
+
+    .app-nav__item.is-active {
+        box-shadow: inset 0 -3px 0 #6aa8f2;
+    }
 }
