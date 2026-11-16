@@ -6,26 +6,35 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
+    permissions:
+      contents: read
+
     steps:
       - name: Baixar projeto
         uses: actions/checkout@v4
 
+      # Sem cache-dependency-path: o repositorio pode nao conter package-lock.json.
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: package-lock.json
 
       - name: Configurar Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Instalar dependencias
-        run: npm ci
+        shell: pwsh
+        run: |
+          if (Test-Path 'package-lock.json') {
+            npm ci
+          } else {
+            npm install --no-audit --no-fund
+          }
 
-      # Preserva o comando de build existente e solicita ambos os bundles do Tauri.
+      # Usa diretamente o CLI do Tauri, evitando duplicar o argumento --bundles
+      # do script npm run build (que ja inclui --bundles nsis).
       - name: Gerar instaladores NSIS e MSI
-        run: npm run build -- --bundles nsis,msi
+        run: npm run tauri -- build --bundles nsis,msi
 
       - name: Publicar instalador EXE (NSIS)
         uses: actions/upload-artifact@v4

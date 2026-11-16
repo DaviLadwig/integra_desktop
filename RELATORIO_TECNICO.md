@@ -1,18 +1,16 @@
-# Integra — alteração do workflow Windows
+# Integra — correção do GitHub Actions
+
+## Diagnóstico
+A etapa `actions/setup-node@v4` falhou com `Some specified paths were not resolved, unable to cache dependencies`, devido à configuração de cache npm com `cache-dependency-path: package-lock.json` sem confirmação da presença desse arquivo no repositório.
 
 ## Arquivo alterado
-- `.github/workflows/build-windows.yml`
-  - Etapa `Instalar dependencias`: `npm install` substituído por `npm ci` para instalações reproduzíveis com `package-lock.json`.
-  - Etapa de compilação: `npm run build -- --bundles nsis,msi`, passando a solicitar instaladores NSIS e MSI ao Tauri.
-  - Etapa de upload: dois artefatos separados, `Integra-Windows-EXE` e `Integra-Windows-MSI`.
+- `.github/workflows/build-windows.yml`: removida a configuração obrigatória de cache; instalação de dependências usa `npm ci` quando existe `package-lock.json` e `npm install` caso contrário; build usa `npm run tauri -- build --bundles nsis,msi` para não duplicar o argumento `--bundles` já existente no script `build` do package.json; upload separado dos instaladores NSIS e MSI.
+
+## Arquivos não alterados
+Nenhum código do aplicativo, dados locais, `package.json`, `tauri.conf.json` ou configuração de segurança foi alterado.
 
 ## Instalação
-Copie `.github/workflows/build-windows.yml` para o mesmo caminho na raiz do repositório GitHub, substituindo o workflow existente. Faça commit e execute `Actions > Gerar Integra para Windows > Run workflow`.
+Copie `.github/workflows/build-windows.yml` para o mesmo caminho no repositório GitHub, faça commit e execute `Actions > Gerar Integra para Windows > Run workflow`.
 
-## Atenção
-- O comando assume que `npm run build` chama o Tauri CLI e aceita `--bundles`, como indicado pelo workflow original que gerava o NSIS. Se o script `build` executar outra ferramenta, será necessário ajustá-lo.
-- `npm ci` exige um `package-lock.json` válido e sincronizado; caso o projeto não possua esse arquivo, mantenha `npm install`.
-- O workflow cria artefatos na aba Actions, NÃO publica automaticamente em GitHub Releases.
-- O MSI não remove garantidamente o alerta do SmartScreen e não substitui assinatura digital.
-- Nenhum arquivo do aplicativo, banco de dados ou credenciais foi alterado.
-- Não foi possível executar um build real Windows neste ambiente; valide no GitHub Actions.
+## Testes e limitações
+O YAML foi inspecionado estruturalmente e confrontado com o `package.json` enviado. Não foi possível executar o GitHub Actions/compilação Windows neste ambiente. O resultado depende dos arquivos existentes no repositório, do CLI Tauri e das dependências do runner. Os artefatos aparecem na execução do Actions, não automaticamente no GitHub Releases. O MSI não remove por si só o alerta SmartScreen.
