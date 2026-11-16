@@ -14,19 +14,29 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Configurar Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Instalar dependencias
-        run: npm install
+        run: npm ci
 
-      - name: Gerar instalador NSIS
-        run: npm run build
+      # Preserva o comando de build existente e solicita ambos os bundles do Tauri.
+      - name: Gerar instaladores NSIS e MSI
+        run: npm run build -- --bundles nsis,msi
 
-      - name: Publicar instalador
+      - name: Publicar instalador EXE (NSIS)
         uses: actions/upload-artifact@v4
         with:
-          name: Integra-Windows
+          name: Integra-Windows-EXE
           path: src-tauri/target/release/bundle/nsis/*.exe
+          if-no-files-found: error
+
+      - name: Publicar instalador MSI
+        uses: actions/upload-artifact@v4
+        with:
+          name: Integra-Windows-MSI
+          path: src-tauri/target/release/bundle/msi/*.msi
           if-no-files-found: error
