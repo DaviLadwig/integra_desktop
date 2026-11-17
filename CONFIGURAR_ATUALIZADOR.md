@@ -25,21 +25,21 @@ O projeto contém o atualizador, mas **nenhum segredo foi incluído no ZIP**. A 
 4. Baixe o MSI, faça backup dos dados do Integra já instalado e teste a instalação da versão **1.0.3** sobre a **0.3.2**. Não desinstale a versão anterior sem antes testar.
 5. Confira login, credencial `.integra`, histórico local, PDF do relatório, Excel do relatório, PDF do checklist, download original e modo claro.
 
-## Publicar a versão inicial
+## Publicar a versão corrigida 1.0.4
 
-1. Confirme que não existe uma Release mais nova que `v1.0.3` no repositório. A versão **dentro do aplicativo** e a **tag** agora seguem a mesma numeração.
-   A versão interna anterior era `0.3.2`, mas a tag publicada foi `v1.0.2`; escolhemos `1.0.3` para eliminar essa divergência nas próximas versões.
-2. Crie e envie a tag `v1.0.3` apontando para o commit validado. O workflow fará o build e publicará uma Release com `latest.json` e arquivos assinados.
-3. No site, aponte o botão principal para o MSI correto da nova Release.
+1. A versão 1.0.3 foi compilada e instalada para teste, mas os relatórios revelaram que faltava selecionar uma base ativa; portanto, **não publique essa versão defeituosa**.
+2. Aplique o pacote da versão 1.0.4 e execute `node scripts/preparar-atualizacao-1.0.4.cjs` para alinhar o número da versão sem substituir a chave pública.
+3. Faça commit e execute manualmente o workflow na branch `main` para validar a compilação.
+4. Somente após o build verde, crie e envie a tag `v1.0.4` apontando para o commit validado. O workflow gerará a Release com `latest.json` e os arquivos assinados.
+5. Atualize o botão de download do site para o MSI da Release `v1.0.4`.
 
 ## Testar a primeira atualização automática
 
-1. Com a versão **1.0.3 instalada**, altere a versão para **1.0.4** em `package.json`, `src-tauri/Cargo.toml` e `src-tauri/tauri.conf.json`.
-2. Atualize `CHANGELOG_RELEASE.md` com as novidades da 1.0.4.
-3. Faça commit e execute o build manual para validar. Depois publique a tag `v1.0.4`.
-4. Abra a versão **1.0.3** do Integra com internet e faça login; aparecerá a opção de atualizar. Também é possível usar o botão **Atualizações**.
-5. Aceite apenas após salvar o trabalho atual. Aguarde o instalador concluir e verifique a nova versão e os dados existentes.
-6. Repita um teste sem internet. O Integra deverá continuar funcionando offline e não bloquear o login.
+1. Mantenha a instalação **1.0.3** no computador de teste.
+2. Depois de publicar a Release assinada **1.0.4**, abra a instalação 1.0.3 com internet.
+3. Use o botão **Atualizações** (ou a verificação de início) para detectar a 1.0.4.
+4. Aceite apenas após salvar o trabalho atual. Aguarde o instalador concluir e verifique a nova versão e os dados existentes.
+5. Repita um teste sem internet. O Integra deverá continuar funcionando offline e não bloquear o login.
 
 ## Cuidados de segurança
 

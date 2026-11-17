@@ -2,6 +2,62 @@
    RELATÓRIOS
 ========================================================= */
 
+/* A seleção usa o histórico local, assim como o checklist. */
+.reports-source {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(220px, 1fr);
+    align-items: end;
+    gap: 16px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+}
+
+.reports-source__field {
+    min-width: 0;
+}
+
+.reports-source__field label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--color-text-secondary);
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .35px;
+}
+
+.reports-source__field select {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 12px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 7px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-size: .88rem;
+}
+
+.reports-source__field select:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.reports-source__status {
+    margin: 0 0 5px;
+    color: var(--color-text-secondary);
+    font-size: .85rem;
+    font-weight: 400;
+    line-height: 1.45;
+}
+
+.reports-source__status[data-state="error"] { color: #db646e; }
+.reports-source__status[data-state="success"] { color: #62b5a0; }
+html[data-theme="light"] .reports-source__status[data-state="error"] { color: #a52839; }
+html[data-theme="light"] .reports-source__status[data-state="success"] { color: #176c52; }
+
 .reports-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -119,6 +175,12 @@
 }
 
 @media (max-width: 760px) {
+
+    .reports-source {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 16px;
+    }
 
     .reports-grid {
         grid-template-columns: 1fr;

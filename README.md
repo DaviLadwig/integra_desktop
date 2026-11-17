@@ -1,9 +1,11 @@
-# Integra Desktop v1.0.3 — exportações e atualizações assinadas
+# Integra Desktop v1.0.4 — relatórios com base local e atualizações assinadas
 
 Projeto Tauri para gerar o instalador Windows do Integra.
 
 ## Correções desta versão
 
+- A tela de Relatórios permite selecionar uma competência do histórico local mesmo após reiniciar o aplicativo.
+- Botões Excel, PDF e impressão possuem eventos de clique próprios e indicam quando é necessário selecionar uma base.
 - Exportação Excel usa geração de bytes (`XLSX.write`) e não o download interno do WebView.
 - Exportação de relatório PDF usa o mesmo fluxo de salvamento.
 - PDF do Checklist Assistencial usa o mesmo fluxo de salvamento.
@@ -24,13 +26,13 @@ Projeto Tauri para gerar o instalador Windows do Integra.
 
 ## Gerar o instalador Windows
 
-1. Substitua o conteúdo do repositório pelo conteúdo deste ZIP, preservando a pasta `.git`.
-2. Faça commit e push.
-3. Abra **Actions** no GitHub.
-4. Execute **Gerar Integra para Windows**.
-5. Baixe o artifact `Integra-Windows`.
+1. Aplique o pacote de correção preservando a pasta `.git`, as credenciais e a chave pública já configurada.
+2. Execute `node scripts/preparar-atualizacao-1.0.4.cjs` para atualizar apenas o número da versão na configuração Tauri e no lockfile.
+3. Faça commit e push para a branch `main`.
+4. Em **Actions**, execute **Gerar e publicar Integra para Windows** manualmente.
+5. Baixe o artefato `Integra-Windows-Assinado` e confira os instaladores MSI e NSIS.
 
-O workflow instala as dependências Tauri e gera o instalador NSIS.
+O workflow gera instaladores MSI/NSIS e assinaturas do atualizador. Só publique a tag `v1.0.4` após validar a compilação.
 
 ## Segurança de arquivos
 
@@ -38,4 +40,4 @@ O Integra não recebe permissão irrestrita para gravar em todo o computador. A 
 
 ## Internet
 
-A internet não é necessária para importar planilhas, gerar Excel, gerar PDF, imprimir via PDF, consultar o histórico ou utilizar o Checklist. O aplicativo permanece local; conectividade poderá ser usada futuramente para atualizações ou serviços opcionais.
+A internet não é necessária para importar planilhas, gerar Excel, gerar PDF, imprimir via PDF, consultar o histórico ou utilizar o Checklist. O aplicativo permanece local; conectividade é usada somente para consultar e baixar atualizações, mediante consentimento.

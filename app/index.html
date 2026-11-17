@@ -760,6 +760,20 @@
 
 
 
+                    <!-- Base usada nos arquivos Excel/PDF: seleção explícita do histórico local. -->
+                    <div class="reports-source" aria-labelledby="reportSourceTitle">
+                        <div class="reports-source__field">
+                            <label id="reportSourceTitle" for="reportBaseSelect">BASE / COMPETÊNCIA</label>
+                            <select id="reportBaseSelect" aria-describedby="reportSourceStatus">
+                                <option value="">Carregando bases locais...</option>
+                            </select>
+                        </div>
+                        <p class="reports-source__status" id="reportSourceStatus" role="status" aria-live="polite">
+                            Selecione uma base salva ou utilize a base já carregada no painel.
+                        </p>
+                    </div>
+
+
                     <div class="reports-grid">
 
 
@@ -779,7 +793,7 @@
                             </p>
 
 
-                            <button type="button" class="btn-secondary" onclick="exportarExcelAtual()">
+                            <button type="button" class="btn-secondary" data-report-export="excel">
                                 Exportar Excel
                             </button>
 
@@ -804,11 +818,11 @@
 
                             <div class="report-card__actions">
 
-                                <button type="button" class="btn-primary" onclick="baixarRelatorioPDF()">
+                                <button type="button" class="btn-primary" data-report-export="pdf">
                                     Baixar PDF
                                 </button>
 
-                                <button type="button" class="btn-secondary" onclick="imprimirRelatorio()">
+                                <button type="button" class="btn-secondary" data-report-export="print">
                                     Imprimir
                                 </button>
 
@@ -890,6 +904,7 @@
     <script src="assets/scripts/bi.js"></script>
 
     <script src="assets/scripts/export.js"></script>
+    <script src="assets/scripts/reports-source.js"></script>
 
     <script src="assets/scripts/app.js"></script>
     <script src="assets/scripts/updater.js"></script>

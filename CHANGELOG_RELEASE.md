@@ -1,6 +1,7 @@
-### Integra 1.0.3
+### Integra 1.0.4
 
-- Corrigido o salvamento local de relatórios Excel e PDF e do checklist PDF.
-- Melhorado o contraste de textos, filtros e tabelas no modo claro.
-- Adicionada verificação de atualizações com instalação consentida e assinatura criptográfica.
-- Não foram alteradas as estruturas de IndexedDB nem o identificador do aplicativo; a preservação deve ser confirmada no teste de atualização Windows.
+- A tela Relatórios agora permite selecionar uma base/competência já salva no histórico local.
+- Corrigidos os botões de exportação Excel, PDF e impressão, com eventos JavaScript próprios e mensagens claras quando não existe uma base ativa.
+- Mantido o salvamento nativo seguro, com confirmação após a gravação e cancelamento sem falso sucesso.
+- Nenhuma alteração no formato do histórico local, nas credenciais, no identificador do aplicativo ou na chave pública de atualização.
+- Versão preparada para testar atualização assinada da instalação 1.0.3 para 1.0.4.

@@ -45,6 +45,10 @@ function initializeApp() {
 
     initializeHistory();
 
+    if (typeof initializeReportExports === 'function') {
+        initializeReportExports();
+    }
+
     initializeSession();
 
 }
@@ -575,6 +579,10 @@ function handleSectionOpen(
          * RELATÓRIOS
          */
         case 'reports':
+
+            if (typeof refreshReportExportSources === 'function') {
+                refreshReportExportSources();
+            }
 
             break;
 

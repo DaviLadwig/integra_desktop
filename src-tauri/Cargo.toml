@@ -1,6 +1,6 @@
 [package]
 name = "integra-desktop"
-version = "1.0.3"
+version = "1.0.4"
 description = "Integra - Sistema de produção isolada"
 authors = ["Integra"]
 edition = "2021"
