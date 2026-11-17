@@ -1,0 +1,79 @@
+/* Interface pequena, segura e integrada ao Modelo 3. */
+.integra-update-check {
+    min-height: 36px;
+    padding: 0 13px;
+    border-radius: 7px;
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: .8rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+.integra-update-check:hover { border-color: var(--color-primary); }
+.integra-update-check:disabled { opacity: .65; cursor: wait; }
+
+.integra-update-overlay {
+    position: fixed;
+    z-index: 12000;
+    inset: 0;
+    padding: 20px;
+    display: grid;
+    place-items: center;
+    background: rgba(5, 12, 24, .7);
+}
+.integra-update-dialog {
+    width: min(480px, 100%);
+    padding: 26px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+}
+.integra-update-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .73rem;
+    font-weight: 600;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    color: var(--color-primary);
+}
+.integra-update-dialog h2 {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.integra-update-dialog p {
+    font-size: .87rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+}
+.integra-update-notes {
+    max-height: 160px;
+    overflow-y: auto;
+    margin: 18px 0 12px;
+    padding: 13px;
+    border: 1px solid var(--color-border);
+    border-radius: 7px;
+    background: var(--siaps-surface-soft);
+    color: var(--color-text);
+    font-size: .85rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+.integra-update-status { min-height: 23px; }
+.integra-update-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 18px; }
+.integra-update-actions button {
+    min-height: 41px;
+    border-radius: 7px;
+    padding: 0 15px;
+    font-size: .85rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+.integra-update-later { border: 1px solid var(--color-border-strong); background: var(--color-surface); color: var(--color-text); }
+.integra-update-install { border: 1px solid #087bfa; background: #087bfa; color: #ffffff; }
+.integra-update-actions button:disabled { cursor: wait; opacity: .6; }
+@media (max-width: 520px) { .integra-update-actions { flex-direction: column-reverse; } }

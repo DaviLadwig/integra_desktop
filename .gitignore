@@ -9,3 +9,9 @@ credenciais-*.txt
 chave-privada-admin.bin
 usuarios_emitidos.json
 emissoes.log
+
+# Chaves privadas de assinatura e certificados nunca entram no Git.
+*.key
+*.pem
+*.p12
+*.pfx

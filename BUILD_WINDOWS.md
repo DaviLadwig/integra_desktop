@@ -1,4 +1,6 @@
-# Gerar o Integra Setup.exe no Windows
+# Gerar os instaladores MSI e EXE assinados no Windows
+
+**Antes de compilar:** siga `CONFIGURAR_ATUALIZADOR.md`. É obrigatório gerar a chave pública, salvar a chave privada fora do projeto e configurar as variáveis de assinatura. Builds sem assinatura não serão publicados.
 
 ## Opção 1 — build local
 
@@ -17,10 +19,11 @@ BUILD_WINDOWS.cmd
 
 O script instala as dependências JavaScript, incluindo os plugins oficiais Tauri de diálogo e sistema de arquivos, e compila o instalador.
 
-O instalador NSIS será gerado em:
+Os instaladores serão gerados em:
 
 ```text
 src-tauri\target\release\bundle\nsis\
+src-tauri\target\release\bundle\msi\
 ```
 
 O instalador está configurado para incluir o instalador offline do WebView2, evitando dependência de internet no computador do usuário durante a instalação.
@@ -30,9 +33,9 @@ O instalador está configurado para incluir o instalador offline do WebView2, ev
 1. Suba a pasta completa para o repositório GitHub, substituindo a versão anterior.
 2. Faça commit e push.
 3. Abra `Actions`.
-4. Selecione `Gerar Integra para Windows`.
+4. Selecione `Gerar e publicar Integra para Windows`.
 5. Clique em `Run workflow`.
-6. Ao terminar, baixe o artefato `Integra-Windows`.
+6. Ao terminar, baixe o artefato `Integra-Windows-Assinado`. Uma nova tag `v1.0.3` também publica a Release com o `latest.json`.
 
 ## Ícone
 

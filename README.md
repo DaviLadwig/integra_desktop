@@ -1,4 +1,4 @@
-# Integra Desktop v0.3.2 — exportações corrigidas
+# Integra Desktop v1.0.3 — exportações e atualizações assinadas
 
 Projeto Tauri para gerar o instalador Windows do Integra.
 

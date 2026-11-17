@@ -117,23 +117,20 @@
         }
 
         if (isIntegraTauriDesktop()) {
-            const tauri = window.__TAURI__;
-            const saveDialog = tauri.dialog && tauri.dialog.save;
-            const writeFile = tauri.fs && tauri.fs.writeFile;
-
-            if (typeof saveDialog !== 'function' || typeof writeFile !== 'function') {
-                throw new Error('O salvamento nativo não está disponível. Atualize o Integra Desktop.');
+            // O comando Rust mostra o diálogo e grava o arquivo escolhido.
+            // Nenhum caminho arbitrário nem permissão ampla de escrita é exposto ao JS.
+            const invoke = window.__TAURI__.core.invoke;
+            if (typeof invoke !== 'function') {
+                throw new Error('O salvamento nativo não está disponível nesta instalação.');
             }
 
-            const destination = await saveDialog({
-                title: settings.title || 'Salvar arquivo do Integra',
-                defaultPath: fileName,
-                filters: [{ name: FILTER_NAMES[extension], extensions: [extension] }]
+            const destination = await invoke('save_integra_export', {
+                fileName,
+                extension,
+                bytes: Array.from(bytes)
             });
 
-            if (!destination) return { saved: false, cancelled: true };
-
-            await writeFile(destination, bytes);
+            if (destination === null) return { saved: false, cancelled: true };
             showIntegraToast(`${fileName} foi salvo com sucesso.`, 'success');
             return { saved: true, cancelled: false, path: destination };
         }

@@ -1,0 +1,107 @@
+/* =========================================================
+   INTEGRA — CONTRASTE DO MODO CLARO (Modelo 3)
+   Somente o tema claro: o grafite aprovado fica intacto.
+========================================================= */
+html[data-theme="light"] {
+    color-scheme: light;
+    --color-primary: #1955a1;
+    --color-primary-dark: #173d75;
+    --color-primary-light: #2269b8;
+    --color-secondary: #086b93;
+    --color-bg: #eef2f7;
+    --color-surface: #ffffff;
+    --color-text: #1c2d43;
+    --color-text-secondary: #44576d;
+    --color-text-muted: #536478;
+    --color-border: #cbd5e1;
+    --color-border-strong: #aebdce;
+    --siaps-bg: #eef2f7;
+    --siaps-surface: #ffffff;
+    --siaps-surface-soft: #f4f7fb;
+    --siaps-line: #c6d1df;
+    --siaps-line-strong: #a9bad0;
+    --siaps-text: #1c2d43;
+    --siaps-muted: #4b5e73;
+    --siaps-blue: #1955a1;
+    --siaps-blue-soft: #e7effa;
+}
+
+html[data-theme="light"] body,
+html[data-theme="light"] .app-shell,
+html[data-theme="light"] .app-main,
+html[data-theme="light"] .app-section {
+    background: #eef2f7;
+    color: #1c2d43;
+}
+
+html[data-theme="light"] .app-header {
+    border-top: 0;
+    border-bottom: 1px solid #cbd5e1;
+    background: #ffffff;
+}
+
+html[data-theme="light"] .page-eyebrow,
+html[data-theme="light"] .page-heading__eyebrow,
+html[data-theme="light"] .report-card__type {
+    color: #1955a1;
+}
+
+html[data-theme="light"] .checklist-field label,
+html[data-theme="light"] .checklist-summary__item span,
+html[data-theme="light"] .checklist-summary__item small,
+html[data-theme="light"] .checklist-guide__text span,
+html[data-theme="light"] .checklist-patient__secondary,
+html[data-theme="light"] .checklist-meta-cell,
+html[data-theme="light"] .history-item__meta,
+html[data-theme="light"] .history-item__main > small {
+    color: #4c5e73;
+}
+
+html[data-theme="light"] :is(input, select, textarea):not([type="checkbox"]):not([type="radio"]) {
+    background: #ffffff;
+    color: #1c2d43;
+    border-color: #b1c0d2;
+}
+html[data-theme="light"] :is(input, textarea)::placeholder {
+    color: #5d6f83;
+    opacity: 1;
+}
+html[data-theme="light"] :is(input, select, textarea):focus-visible,
+html[data-theme="light"] button:focus-visible {
+    outline: 2px solid #1955a1;
+    outline-offset: 2px;
+}
+
+html[data-theme="light"] .checklist-table th,
+html[data-theme="light"] .checklist-table th.checklist-table__patient {
+    background: #e4edf8;
+    color: #233f61;
+    border-color: #bdcbdb;
+}
+html[data-theme="light"] .checklist-table tbody tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+html[data-theme="light"] .checklist-table tbody tr:hover td {
+    background: #e9f1fc;
+}
+html[data-theme="light"] .checklist-table td,
+html[data-theme="light"] .checklist-patient__primary,
+html[data-theme="light"] .checklist-criterion-head span {
+    color: #24384f;
+}
+
+html[data-theme="light"] .report-card,
+html[data-theme="light"] .checklist-toolbar,
+html[data-theme="light"] .checklist-summary__item,
+html[data-theme="light"] .checklist-guide,
+html[data-theme="light"] .page-heading {
+    border-color: #cbd5e1;
+    background: #ffffff;
+}
+
+html[data-theme="light"] .report-card p,
+html[data-theme="light"] .page-heading p {
+    color: #42546a;
+}
+
+/* Barra lateral dark permanece visualmente idêntica no modo claro. */
