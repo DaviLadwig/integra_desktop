@@ -1,0 +1,52 @@
+/* Filtros compactos de competência e modo de leitura. */
+.monthly-competence-filter {
+    min-width: 210px;
+}
+
+.dashboard-toolbar {
+    flex-wrap: wrap;
+}
+
+.dashboard-toolbar .dashboard-filter {
+    flex: 1 1 220px;
+}
+
+.monthly-competence-filter select {
+    width: 100%;
+}
+
+.bi-header__actions .bi-filter--month {
+    min-width: 185px;
+}
+
+.bi-header__actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.bi-header__actions .bi-filter--mode {
+    min-width: 160px;
+}
+
+.bi-header__actions .bi-filter--group {
+    min-width: 170px;
+}
+
+.bi-header__actions select,
+.monthly-competence-filter select {
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+@media (max-width: 1100px) {
+    .bi-header__actions .bi-filter--month,
+    .bi-header__actions .bi-filter--mode,
+    .bi-header__actions .bi-filter--group {
+        flex: 1 1 175px;
+    }
+
+    .dashboard-toolbar .monthly-competence-filter {
+        flex: 1 1 210px;
+    }
+}

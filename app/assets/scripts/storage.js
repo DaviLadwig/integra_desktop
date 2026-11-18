@@ -1172,6 +1172,11 @@ async function renderSavedImports() {
     }
 
     try {
+        // Mantém os meses abertos quando uma planilha é excluída ou reimportada.
+        const expandedMonths = new Set(
+            [...container.querySelectorAll('details[data-history-period][open]')]
+                .map(element => element.dataset.historyPeriod)
+        );
         const records = await historyGetAll();
         const people = await historyPeopleGetAll();
 
@@ -1180,9 +1185,24 @@ async function renderSavedImports() {
             String(b.importedAt || '').localeCompare(String(a.importedAt || ''))
         );
 
+        const periods = new Map();
+        ordered.forEach(record => {
+            const key = record.competenceKey || '__sem_competencia__';
+            if (!periods.has(key)) {
+                periods.set(key, {
+                    key,
+                    label: record.competenceKey
+                        ? formatHistoryCompetence(record.competenceKey, record.competenceLabel)
+                        : 'Sem competência identificada',
+                    records: []
+                });
+            }
+            periods.get(key).records.push(record);
+        });
+
         if (summary) {
             summary.textContent = ordered.length
-                ? `${ordered.length} ${ordered.length === 1 ? 'base armazenada' : 'bases armazenadas'} · ${people.length} ${people.length === 1 ? 'pessoa única' : 'pessoas únicas'}`
+                ? `${periods.size} ${periods.size === 1 ? 'competência' : 'competências'} · ${ordered.length} ${ordered.length === 1 ? 'planilha' : 'planilhas'} · ${people.length} ${people.length === 1 ? 'pessoa única' : 'pessoas únicas'}`
                 : 'Nenhuma base armazenada neste navegador';
         }
 
@@ -1196,20 +1216,15 @@ async function renderSavedImports() {
             return;
         }
 
-        container.innerHTML = ordered.map(record => {
+        const renderRecord = record => {
 
             const active = Array.isArray(window._siapsActiveHistoryIds)
                 && window._siapsActiveHistoryIds.includes(record.id);
-
-            const competence = record.competenceKey
-                ? formatHistoryCompetence(record.competenceKey, record.competenceLabel)
-                : 'Sem competência identificada';
 
             return `
                 <article class="history-item${active ? ' is-active' : ''}" data-history-id="${escapeAttribute(record.id)}">
                     <div class="history-item__main">
                         <div class="history-item__badges">
-                            <span class="history-badge history-badge--period">${escapeBI(competence)}</span>
                             <span class="history-badge">${escapeBI(historyCategoryLabel(record.category))}</span>
                         </div>
 
@@ -1245,6 +1260,27 @@ async function renderSavedImports() {
                         </button>
                     </div>
                 </article>
+            `;
+        };
+
+        container.innerHTML = [...periods.values()].map((period, index) => {
+            const categories = new Set(period.records.map(item => item.category).filter(Boolean));
+            const isActive = period.records.some(record =>
+                Array.isArray(window._siapsActiveHistoryIds) &&
+                window._siapsActiveHistoryIds.includes(record.id)
+            );
+            const open = expandedMonths.has(period.key) ||
+                (!expandedMonths.size && (isActive || index === 0));
+
+            return `
+                <details class="history-month" data-history-period="${escapeAttribute(period.key)}"${open ? ' open' : ''}>
+                    <summary class="history-month__summary">
+                        <span class="history-month__label">${escapeBI(period.label)}</span>
+                        <span class="history-month__meta">${period.records.length} ${period.records.length === 1 ? 'planilha' : 'planilhas'} · ${categories.size} ${categories.size === 1 ? 'grupo' : 'grupos'}</span>
+                        <span class="history-month__arrow" aria-hidden="true"></span>
+                    </summary>
+                    <div class="history-month__files">${period.records.map(renderRecord).join('')}</div>
+                </details>
             `;
         }).join('');
 

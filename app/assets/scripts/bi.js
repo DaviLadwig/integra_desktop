@@ -1076,6 +1076,10 @@ function updateBIClearSelectionButton() {
 let biActiveGroup = null;
 let biTooltipTimer = null;
 
+/* Alterna entre a leitura conjunta e os gráficos de um único grupo. */
+let biViewMode = 'geral';
+let biSelectedCategory = 'diabetes';
+
 
 function getCoverageLevel(value) {
 
@@ -1224,8 +1228,14 @@ function renderBI() {
         );
 
 
-    const biGroups =
-        getAvailableBIGroups();
+    const allGroups = getAvailableBIGroups();
+    const individual = biViewMode === 'individual';
+    if (!allGroups.some(group => group.key === biSelectedCategory)) {
+        biSelectedCategory = allGroups[0]?.key || '';
+    }
+    const biGroups = individual
+        ? allGroups.filter(group => group.key === biSelectedCategory)
+        : allGroups;
 
 
     const stats =
@@ -1245,8 +1255,9 @@ function renderBI() {
         );
 
 
-    const practiceStats =
-        biGroups.map(
+    const practiceStats = individual && biGroups[0]
+        ? getBIIndividualPracticeStats(biGroups[0].key, ines)
+        : biGroups.map(
             group => {
 
                 return {
@@ -1270,7 +1281,12 @@ function renderBI() {
 
 
     const priorities =
-        [...groupStats]
+        [...(individual ? practiceStats.map(item => ({
+            ...item,
+            total: item.total,
+            pending: item.pending,
+            pendingPercentage: item.pendingPercentage
+        })) : groupStats)]
             .filter(
                 item =>
                     item.total > 0
@@ -1304,18 +1320,49 @@ function renderBI() {
                     </span>
 
                     <h1>
-                        Painel executivo
+                        ${individual && biGroups[0]
+                            ? `BI · ${escapeBI(biGroups[0].label)}`
+                            : 'Painel executivo'}
                     </h1>
 
                     <p>
-                        Visão consolidada dos principais indicadores
-                        da Atenção Primária à Saúde.
+                        ${individual
+                            ? 'Análise individual das práticas e equipes do grupo selecionado.'
+                            : 'Indicadores de todos os grupos da competência selecionada.'}
                     </p>
 
                 </div>
 
 
                 <div class="bi-header__actions">
+
+                    <div class="bi-filter bi-filter--month">
+                        <label for="biMonthlyCompetenceSelect">Competência</label>
+                        <select id="biMonthlyCompetenceSelect" aria-label="Competência do BI">
+                            <option value="">Carregando...</option>
+                        </select>
+                    </div>
+
+                    <div class="bi-filter bi-filter--mode">
+                        <label for="biViewModeSelect">Leitura</label>
+                        <select id="biViewModeSelect">
+                            <option value="geral" ${!individual ? 'selected' : ''}>Consolidada</option>
+                            <option value="individual" ${individual ? 'selected' : ''}>Individual</option>
+                        </select>
+                    </div>
+
+                    ${individual ? `
+                        <div class="bi-filter bi-filter--group">
+                            <label for="biSelectedCategorySelect">Grupo</label>
+                            <select id="biSelectedCategorySelect">
+                                ${allGroups.map(group => `
+                                    <option value="${escapeBI(group.key)}" ${group.key === biSelectedCategory ? 'selected' : ''}>
+                                        ${escapeBI(group.label)}
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    ` : ''}
 
                     <div class="bi-filter">
 
@@ -1357,6 +1404,13 @@ function renderBI() {
             ============================================= -->
 
             <section class="bi-kpi-grid">
+
+                ${individual && groupStats[0] ? `
+                    ${buildBIKpi('Pessoas no grupo', groupStats[0].total, 'registros da competência', 'primary')}
+                    ${buildBIKpi('Acompanhadas', groupStats[0].accompanied, 'com acompanhamento', 'success')}
+                    ${buildBIKpi('Pendentes', groupStats[0].pending, 'sem acompanhamento', 'danger')}
+                    ${buildBIKpi('Cobertura', `${groupStats[0].coverage}%`, 'do grupo selecionado', 'success')}
+                ` : `
 
                 ${buildBIKpi(
         'Equipes',
@@ -1401,6 +1455,7 @@ function renderBI() {
         'success'
     )}
 
+                `}
             </section>
 
 
@@ -1423,7 +1478,7 @@ function renderBI() {
                             </span>
 
                             <h2>
-                                Distribuição por grupo
+                                ${individual ? 'Distribuição por equipe' : 'Distribuição por grupo'}
                             </h2>
                         </div>
 
@@ -1436,9 +1491,9 @@ function renderBI() {
 
                     <div class="bi-bars">
 
-                        ${buildBIGroupBars(
-        groupStats
-    )}
+                        ${individual && biGroups[0]
+                            ? buildBIIndividualTeamBars(teams, biGroups[0])
+                            : buildBIGroupBars(groupStats)}
 
                     </div>
 
@@ -1550,7 +1605,7 @@ function renderBI() {
                             </span>
 
                             <h2>
-                                Boas práticas
+                                ${individual ? 'Cumprimento por prática' : 'Boas práticas'}
                             </h2>
                         </div>
 
@@ -1677,6 +1732,9 @@ function renderBI() {
 
 
     bindBIEvents();
+    if (typeof refreshMonthlyCompetenceSelects === 'function') {
+        refreshMonthlyCompetenceSelects();
+    }
 
 }
 
@@ -2152,6 +2210,65 @@ function buildBIGroupBars(
 }
 
 
+/** Barras por equipe para o grupo escolhido na leitura individual. */
+function buildBIIndividualTeamBars(teams, group) {
+    const entries = teams.map(team => ({
+        team,
+        total: Number(team[group.totalKey] || 0)
+    }));
+    const max = Math.max(...entries.map(item => item.total), 1);
+
+    return entries.map(item => `
+        <div class="bi-bar-row" data-bi-group="${escapeBI(group.key)}">
+            <div class="bi-bar-row__label">
+                <span>${escapeBI(item.team.equipe || item.team.ine)}</span>
+                <strong>${formatNumber(item.total)}</strong>
+            </div>
+            <div class="bi-bar">
+                <div class="bi-bar__fill" style="width:${Math.round(item.total / max * 100)}%"></div>
+            </div>
+        </div>
+    `).join('');
+}
+
+
+/** Acompanhamento de cada prática individual, sem inventar critérios novos. */
+function getBIIndividualPracticeStats(category, ines) {
+    const practices = typeof PR !== 'undefined' && Array.isArray(PR[category])
+        ? PR[category]
+        : [];
+
+    return practices.map(practice => {
+        let total = 0;
+        let pending = 0;
+
+        ines.forEach(ine => {
+            const counters = GC[category]?.[ine] || {};
+            const value = counters[practice];
+            if (Array.isArray(value)) {
+                const eligible = Number(value[1] || 0);
+                const performed = Number(value[0] || 0);
+                total += eligible;
+                pending += Math.max(eligible - performed, 0);
+            } else {
+                const groupTotal = Number(counters.total || 0);
+                total += groupTotal;
+                pending += Math.min(Math.max(Number(value || 0), 0), groupTotal);
+            }
+        });
+
+        return {
+            key: category,
+            label: practice,
+            total,
+            pending,
+            percentage: total ? Math.round((total - pending) / total * 100) : 0,
+            pendingPercentage: total ? Math.round(pending / total * 100) : 0
+        };
+    });
+}
+
+
 /**
  * =========================================================
  * BOAS PRÁTICAS
@@ -2609,6 +2726,20 @@ function buildBITeamTable(
  */
 
 function bindBIEvents() {
+
+    const modeSelect = document.getElementById('biViewModeSelect');
+    modeSelect?.addEventListener('change', () => {
+        biViewMode = modeSelect.value === 'individual' ? 'individual' : 'geral';
+        biActiveGroup = null;
+        renderBI();
+    });
+
+    const groupSelect = document.getElementById('biSelectedCategorySelect');
+    groupSelect?.addEventListener('change', () => {
+        biSelectedCategory = groupSelect.value;
+        biActiveGroup = null;
+        renderBI();
+    });
 
     const teamSelect =
         document.getElementById(

@@ -20,11 +20,13 @@ class FakeElement {
     replaceChildren(...items) { this.children = [...items]; }
     get options() { return this.children; }
     focus() { this.focused = true; }
+    showModal() { this.open = true; }
+    close() { this.open = false; }
 
     async emit(event) {
         const callback = this.handlers.get(event);
         assert.ok(callback, `Evento ${event} não registrado`);
-        await callback();
+        await callback({ preventDefault() {} });
     }
 }
 
@@ -34,13 +36,28 @@ class FakeElement {
     const excel = new FakeElement('button');
     const pdf = new FakeElement('button');
     const print = new FakeElement('button');
+    const dialog = new FakeElement('dialog');
+    const form = new FakeElement('form');
+    const pdfCompetence = new FakeElement('select');
+    const pdfScope = new FakeElement('select');
+    const pdfNote = new FakeElement('p');
+    const pdfConfirm = new FakeElement('button');
+    const pdfCancel = new FakeElement('button');
     excel.dataset.reportExport = 'excel';
     pdf.dataset.reportExport = 'pdf';
     print.dataset.reportExport = 'print';
 
-    const elements = { reportBaseSelect: select, reportSourceStatus: status };
+    const elements = {
+        reportBaseSelect: select, reportSourceStatus: status,
+        reportPdfDialog: dialog, reportPdfForm: form,
+        reportPdfCompetenceSelect: pdfCompetence,
+        reportPdfScopeSelect: pdfScope,
+        reportPdfDialogNote: pdfNote,
+        reportPdfConfirm: pdfConfirm,
+        reportPdfCancel: pdfCancel
+    };
     const notifications = [];
-    const calls = { excel: 0, pdf: 0, print: 0, activated: 0 };
+    const calls = { excel: 0, pdf: 0, print: 0, activated: 0, current: 0 };
     let failNextActivation = false;
     const win = { _siapsLoaded: false };
 
@@ -66,6 +83,22 @@ class FakeElement {
             teamLabel: '000000'
         }],
         historyCategoryLabel: () => 'Diabetes',
+        getMonthlyCompetences: async () => [{
+            key: '2026-08', label: 'Agosto/2026',
+            categories: new Set(['diabetes']),
+            imports: [{ id: 'hist-1', category: 'diabetes' }]
+        }],
+        baixarRelatorioMensalPDF: async (period, category) => {
+            assert.equal(period, '2026-08');
+            assert.equal(category, '');
+            calls.pdf++;
+            return { saved: true };
+        },
+        baixarRelatorioBaseAtualPDF: async category => {
+            assert.equal(category, '');
+            calls.current++;
+            return { saved: true };
+        },
         activateHistoryImports: async (ids, options) => {
             assert.deepEqual(Array.from(ids), ['hist-1']);
             assert.equal(options.navigate, false);
@@ -73,6 +106,7 @@ class FakeElement {
                 throw new Error('Falha fictícia no histórico');
             }
             win._siapsLoaded = true;
+            win._siapsAvailableCategories = ['diabetes'];
             sandbox.D = { '000000': { ine: '000000', equipe: 'Teste' } };
             calls.activated++;
         },
@@ -98,6 +132,14 @@ class FakeElement {
     assert.equal(calls.excel, 0);
     assert.equal(notifications.at(-1).variant, 'error');
 
+    // PDFs podem partir de uma competência salva mesmo sem base ativa.
+    await pdf.emit('click');
+    assert.equal(dialog.open, true);
+    assert.equal(pdfScope.value, 'geral');
+    await form.emit('submit');
+    assert.equal(dialog.open, false);
+    assert.equal(calls.pdf, 1);
+
     select.value = 'hist-1';
     await select.emit('change');
     assert.equal(calls.activated, 1);
@@ -105,8 +147,18 @@ class FakeElement {
 
     await excel.emit('click');
     await pdf.emit('click');
+    assert.equal(pdfCompetence.value, '2026-08');
+    assert.ok(pdfScope.options.some(option => option.value === 'diabetes'));
+    await pdfCancel.emit('click');
+    assert.equal(dialog.open, false);
+
+    await pdf.emit('click');
+    pdfCompetence.value = '__integra_base_atual__';
+    await pdfCompetence.emit('change');
+    await form.emit('submit');
+    assert.equal(calls.current, 1);
     await print.emit('click');
-    assert.deepEqual(calls, { excel: 1, pdf: 1, print: 1, activated: 1 });
+    assert.deepEqual(calls, { excel: 1, pdf: 1, print: 1, activated: 1, current: 1 });
 
     await win.refreshReportExportSources();
     assert.equal(select.value, '__integra_base_atual__');

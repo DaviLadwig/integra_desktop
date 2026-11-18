@@ -50,6 +50,12 @@ jobs:
             throw 'Execute o script de geracao de chaves e publique a chave publica no tauri.conf.json.'
           }
           $version = [string]$config.version
+          $npmVersion = [string](Get-Content 'package.json' -Raw | ConvertFrom-Json).version
+          $cargoText = Get-Content 'src-tauri/Cargo.toml' -Raw
+          $cargoMatch = [regex]::Match($cargoText, '(?m)^version\s*=\s*"([^"]+)"')
+          if (!$cargoMatch.Success -or $npmVersion -ne $version -or $cargoMatch.Groups[1].Value -ne $version) {
+            throw "Versoes divergentes: Tauri=$version, NPM=$npmVersion, Cargo=$($cargoMatch.Groups[1].Value)."
+          }
           if ($env:GITHUB_REF_TYPE -eq 'tag' -and $env:RELEASE_TAG -ne "v$version") {
             throw "Tag $env:RELEASE_TAG diferente da versao $version."
           }
@@ -60,6 +66,18 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: npm run tauri -- build --bundles nsis,msi
+
+      # Um nome estável permite um único link público no site, independentemente da versão.
+      # A assinatura do atualizador continua vinculada ao MSI versionado no latest.json.
+      - name: Preparar MSI com nome fixo para o site
+        shell: pwsh
+        run: |
+          $msis = @(Get-ChildItem 'src-tauri/target/release/bundle/msi/*.msi')
+          if ($msis.Count -ne 1) { throw 'Era esperado exatamente um MSI para criar o download fixo.' }
+          Copy-Item -LiteralPath $msis[0].FullName -Destination 'Integra-Atual.msi'
+          $originalHash = (Get-FileHash -LiteralPath $msis[0].FullName -Algorithm SHA256).Hash
+          $aliasHash = (Get-FileHash -LiteralPath 'Integra-Atual.msi' -Algorithm SHA256).Hash
+          if ($originalHash -ne $aliasHash) { throw 'O MSI de nome fixo não corresponde ao original.' }
 
       - name: Gerar latest.json para o atualizador
         shell: pwsh
@@ -97,6 +115,7 @@ jobs:
             src-tauri/target/release/bundle/msi/*.sig
             src-tauri/target/release/bundle/nsis/*.exe
             src-tauri/target/release/bundle/nsis/*.sig
+            Integra-Atual.msi
             latest.json
           if-no-files-found: error
 
@@ -111,5 +130,8 @@ jobs:
           $files += @((Get-ChildItem 'src-tauri/target/release/bundle/msi/*.sig').FullName)
           $files += @((Get-ChildItem 'src-tauri/target/release/bundle/nsis/*.exe').FullName)
           $files += @((Get-ChildItem 'src-tauri/target/release/bundle/nsis/*.sig').FullName)
+          $files += (Resolve-Path 'Integra-Atual.msi').Path
           $files += (Resolve-Path 'latest.json').Path
           gh release create $env:RELEASE_TAG @files --verify-tag --latest --title "Integra $env:RELEASE_TAG" --notes-file 'CHANGELOG_RELEASE.md'
+          if ($LASTEXITCODE -ne 0) { throw 'A publicacao da Release falhou.' }
+          "Download publico permanente: https://github.com/$env:GITHUB_REPOSITORY/releases/latest/download/Integra-Atual.msi" >> $env:GITHUB_STEP_SUMMARY

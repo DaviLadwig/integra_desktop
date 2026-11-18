@@ -1,0 +1,150 @@
+/* =========================================================
+   INTEGRA 1.0.5 - Legibilidade do painel e BI no tema escuro
+   Camada final de contraste; sem alterar dados nem componentes.
+========================================================= */
+
+/* Botões: fundo e texto definidos juntos, inclusive no hover.
+   A barra de ações usava fundo branco e herdava texto claro. */
+html[data-theme="dark"] #sectionDashboard .toolbar-btn,
+html[data-theme="dark"] .app-section .toolbar-btn:not(.toolbar-btn--danger) {
+    background: #1a2b3c !important;
+    color: #e7f0fa !important;
+    border-color: #4b6680 !important;
+}
+
+html[data-theme="dark"] #sectionDashboard .toolbar-btn:hover,
+html[data-theme="dark"] .app-section .toolbar-btn:not(.toolbar-btn--danger):hover {
+    background: #243d55 !important;
+    color: #ffffff !important;
+    border-color: #78aff0 !important;
+}
+
+html[data-theme="dark"] #sectionDashboard .toolbar-btn--danger,
+html[data-theme="dark"] .app-section .toolbar-btn--danger {
+    background: #352126 !important;
+    color: #ffc3c9 !important;
+    border-color: #86535d !important;
+}
+
+html[data-theme="dark"] #sectionDashboard .toolbar-btn--danger:hover,
+html[data-theme="dark"] .app-section .toolbar-btn--danger:hover {
+    background: #49272f !important;
+    color: #ffe1e4 !important;
+    border-color: #cd7a86 !important;
+}
+
+html[data-theme="dark"] .app-section .btn-secondary {
+    background: #172d40 !important;
+    border-color: #396b91 !important;
+    color: #a9d6fa !important;
+}
+
+html[data-theme="dark"] .app-section .btn-secondary:hover {
+    background: #203d56 !important;
+    border-color: #6ea8dc !important;
+    color: #edf7ff !important;
+}
+
+/* Contador do histórico: evita texto claro sobre a etiqueta branca. */
+html[data-theme="dark"] #sectionImport .history-card__summary {
+    background: #203245 !important;
+    border: 1px solid #405972;
+    color: #dce9f5 !important;
+}
+
+/* BI > Perfil do grupo: títulos, categorias e valores legíveis. */
+html[data-theme="dark"] #sectionBi .bi-child-profile-block {
+    background: #172431 !important;
+    border-color: #3a5269 !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-profile-block h3 {
+    color: #dceaf7 !important;
+    font-size: .76rem;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-profile-row {
+    border-bottom-color: #3b5165 !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-profile-row__top span {
+    color: #bfcddd !important;
+    font-size: .72rem;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-profile-row__top strong {
+    color: #e8f2fc !important;
+    font-size: .72rem;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-profile-empty {
+    color: #b4c4d3 !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-profile-progress {
+    background: #34495c !important;
+}
+
+/* BI > Critérios monitorados: textos do tema claro estavam azul-escuros. */
+html[data-theme="dark"] #sectionBi .bi-child-table-wrap {
+    border-color: #40576d !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table {
+    background: #111c27 !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table th {
+    background: #233449 !important;
+    color: #d7e5f2 !important;
+    border-color: #445b71 !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table td {
+    color: #d1dfeb !important;
+    border-color: #32485c !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table tbody tr:nth-child(odd) {
+    background: #131f2b !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table tbody tr:nth-child(even) {
+    background: #192938 !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table tbody tr:hover,
+html[data-theme="dark"] #sectionBi .bi-child-table tbody tr.is-active {
+    background: #25415b !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table td > strong {
+    color: #eaf3fb !important;
+    font-size: .76rem;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table td > small {
+    color: #b8c9d9 !important;
+    font-size: .67rem;
+    line-height: 1.55;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-table td:last-child > strong {
+    color: #a9d5ff !important;
+}
+
+html[data-theme="dark"] #sectionBi .bi-child-code {
+    background: #193650 !important;
+    color: #9bcaff !important;
+    border: 1px solid #3c6588 !important;
+}
+
+/* No tema claro, botões da barra conservam texto escuro no fundo branco. */
+html[data-theme="light"] #sectionDashboard .toolbar-btn {
+    background: #ffffff;
+    color: #234260;
+}
+
+html[data-theme="light"] #sectionDashboard .toolbar-btn--danger {
+    color: #9e2638;
+}

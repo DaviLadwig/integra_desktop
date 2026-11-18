@@ -193,9 +193,7 @@ function initUploadEvents() {
                 }
 
 
-                handleFile(
-                    files[0]
-                );
+                handleFiles(files);
 
             }
         );
@@ -230,21 +228,49 @@ function initUploadEvents() {
             }
 
 
-            const file =
-                files[0];
-
-
-            console.log(
-                'Arquivo selecionado:',
-                file.name
-            );
-
-
-            handleFile(file);
+            handleFiles(files);
 
         }
     );
 
+}
+
+
+/** Processa uma seleção de planilhas sequencialmente, preservando o histórico. */
+async function handleFiles(files) {
+    const selected = Array.from(files || []);
+    if (!selected.length || window._siapsImportBatchRunning) {
+        return;
+    }
+
+    window._siapsImportBatchRunning = true;
+    let successful = 0;
+
+    try {
+        for (let index = 0; index < selected.length; index++) {
+            if (selected.length > 1) {
+                setUploadStatus('loading', `Importando planilha ${index + 1} de ${selected.length}...`);
+            }
+            const ok = await handleFile(selected[index]);
+            if (ok) {
+                successful++;
+            }
+        }
+
+        if (successful > 0 && typeof resetMonthlyCompetenceSelection === 'function') {
+            resetMonthlyCompetenceSelection();
+        }
+
+        if (selected.length > 1) {
+            const failures = selected.length - successful;
+            setUploadStatus(
+                failures ? 'error' : 'success',
+                `${successful} de ${selected.length} planilhas processadas${failures ? `; ${failures} com falha` : ' e salvas'}. A Visão Geral reúne os grupos por competência.`
+            );
+        }
+    } finally {
+        window._siapsImportBatchRunning = false;
+    }
 }
 
 
@@ -483,6 +509,8 @@ async function handleFile(file) {
             );
 
 
+        let saved = true;
+
         if (
             processResult?.ok &&
             typeof persistProcessedImport === 'function'
@@ -495,6 +523,7 @@ async function handleFile(file) {
                     processResult
                 });
             } catch (historyError) {
+                saved = false;
                 console.error(
                     'A planilha foi processada, mas não pôde ser salva no histórico local:',
                     historyError
@@ -509,6 +538,8 @@ async function handleFile(file) {
             }
 
         }
+
+        return Boolean(processResult?.ok && saved);
 
 
     } catch (error) {
@@ -532,6 +563,8 @@ async function handleFile(file) {
                 </div>
             `
         );
+
+        return false;
 
     }
 

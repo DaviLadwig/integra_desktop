@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="assets/styles/integra-modelo3.css">
     <link rel="stylesheet" href="assets/styles/integra-light-contrast.css">
     <link rel="stylesheet" href="assets/styles/integra-updater.css">
+    <link rel="stylesheet" href="assets/styles/monthly-overview.css">
+    <link rel="stylesheet" href="assets/styles/monthly-reports.css">
+    <link rel="stylesheet" href="assets/styles/contrast-fixes-1.0.5.css">
 
 
 
@@ -312,7 +315,7 @@
                             <div class="upload-dropzone__content">
 
                                 <strong>
-                                    Arraste a planilha aqui
+                                    Arraste as planilhas aqui
                                 </strong>
 
                                 <span>
@@ -326,6 +329,7 @@
 
                         <input type="file" id="fileInput" class="up-file"
                             accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            multiple
                             tabindex="-1">
 
 
@@ -372,9 +376,7 @@
                                     Histórico
                                 </span>
 
-                                <h2 id="historyTitle">
-                                    Bases armazenadas
-                                </h2>
+                                <h2 id="historyTitle">Competências armazenadas</h2>
                             </div>
 
                             <span class="history-card__summary" id="savedImportsSummary">
@@ -482,6 +484,13 @@
                     <div class="dashboard-loaded" id="dashboardLoaded" style="display:none;">
 
                         <div class="dashboard-toolbar">
+
+                            <div class="dashboard-filter monthly-competence-filter">
+                                <label for="monthlyCompetenceSelect">Competência</label>
+                                <select id="monthlyCompetenceSelect" aria-label="Competência da Visão Geral">
+                                    <option value="">Carregando competências...</option>
+                                </select>
+                            </div>
 
 
                             <div class="dashboard-filter">
@@ -812,8 +821,8 @@
                             </h2>
 
                             <p>
-                                Gere um documento próprio com resumo executivo, indicadores,
-                                boas práticas e detalhamento por equipe.
+                                Escolha um relatório geral do mês ou um grupo específico,
+                                com indicadores e detalhamento por equipe.
                             </p>
 
                             <div class="report-card__actions">
@@ -832,6 +841,26 @@
 
 
                     </div>
+
+                    <!-- A escolha do PDF não altera a base atualmente aberta no painel. -->
+                    <dialog class="monthly-pdf-dialog" id="reportPdfDialog" aria-labelledby="reportPdfDialogTitle">
+                        <form id="reportPdfForm">
+                            <div class="monthly-pdf-dialog__heading">
+                                <span class="page-eyebrow">Exportação PDF</span>
+                                <h2 id="reportPdfDialogTitle">Qual relatório deseja gerar?</h2>
+                                <p>Os indicadores serão lidos das planilhas salvas na competência escolhida.</p>
+                            </div>
+                            <label for="reportPdfCompetenceSelect">Mês de referência</label>
+                            <select id="reportPdfCompetenceSelect" required></select>
+                            <label for="reportPdfScopeSelect">Tipo de relatório</label>
+                            <select id="reportPdfScopeSelect" required></select>
+                            <p class="monthly-pdf-dialog__note" id="reportPdfDialogNote" role="status"></p>
+                            <div class="monthly-pdf-dialog__actions">
+                                <button type="button" class="btn-secondary" id="reportPdfCancel">Cancelar</button>
+                                <button type="submit" class="btn-primary" id="reportPdfConfirm">Gerar PDF</button>
+                            </div>
+                        </form>
+                    </dialog>
 
 
                 </div>
@@ -894,6 +923,7 @@
     <script src="assets/scripts/indicators.js"></script>
 
     <script src="assets/scripts/storage.js"></script>
+    <script src="assets/scripts/monthly-overview.js"></script>
 
     <script src="assets/scripts/checklist.js"></script>
 

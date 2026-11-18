@@ -1,0 +1,74 @@
+/* Histórico por competência: cada mês contém suas planilhas. */
+.history-month {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+}
+
+.history-month__summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 17px 18px;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-text);
+}
+
+.history-month__summary::-webkit-details-marker { display: none; }
+.history-month__summary:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -3px; }
+.history-month__label { font-size: .94rem; font-weight: 600; }
+.history-month__meta { margin-left: auto; color: var(--color-text-secondary); font-size: .76rem; }
+.history-month__arrow {
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .15s ease;
+    margin-left: 5px;
+    color: var(--color-text-secondary);
+}
+.history-month[open] .history-month__arrow { transform: rotate(225deg); }
+.history-month__files { display: grid; gap: 8px; padding: 4px 12px 12px; }
+.history-month__files .history-item { border-left-width: 2px; }
+
+/* Modal simples para escolha do PDF geral ou individual. */
+.monthly-pdf-dialog {
+    width: min(520px, calc(100vw - 30px));
+    max-height: calc(100vh - 32px);
+    padding: 0;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    box-shadow: 0 24px 65px rgba(0, 0, 0, .32);
+}
+.monthly-pdf-dialog::backdrop { background: rgba(5, 13, 23, .74); }
+.monthly-pdf-dialog form { display: grid; gap: 9px; padding: 26px; }
+.monthly-pdf-dialog__heading { margin-bottom: 7px; }
+.monthly-pdf-dialog__heading h2 { margin: 6px 0; font-size: 1.35rem; font-weight: 700; }
+.monthly-pdf-dialog__heading p { margin: 0; color: var(--color-text-secondary); font-size: .83rem; line-height: 1.5; }
+.monthly-pdf-dialog label { color: var(--color-text-secondary); font-size: .78rem; font-weight: 500; }
+.monthly-pdf-dialog select {
+    width: 100%;
+    min-height: 43px;
+    margin-bottom: 8px;
+    padding: 0 11px;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 7px;
+    font: inherit;
+}
+.monthly-pdf-dialog__note { min-height: 18px; margin: 0; color: var(--color-text-secondary); font-size: .75rem; }
+.monthly-pdf-dialog__actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 9px; }
+.monthly-pdf-dialog__actions button { min-height: 40px; }
+
+@media (max-width: 650px) {
+    .history-month__summary { flex-wrap: wrap; gap: 6px 10px; padding: 14px; }
+    .history-month__meta { margin-left: 0; }
+    .history-month__arrow { margin-left: auto; }
+    .monthly-pdf-dialog form { padding: 18px; }
+}

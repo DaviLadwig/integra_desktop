@@ -21,8 +21,20 @@ try {
         fs.copyFileSync(path.join(original, relative), path.join(temporary, relative));
     }
 
+    // O teste da migração antiga usa uma fixture 1.0.4, mesmo quando o
+    // projeto principal já estiver na versão 1.0.5 ou posterior.
+    const packageFile = path.join(temporary, 'package.json');
+    const pkg = JSON.parse(fs.readFileSync(packageFile, 'utf8'));
+    pkg.version = '1.0.4';
+    fs.writeFileSync(packageFile, `${JSON.stringify(pkg, null, 2)}\n`);
+
+    const cargoFile = path.join(temporary, 'src-tauri/Cargo.toml');
+    fs.writeFileSync(cargoFile, fs.readFileSync(cargoFile, 'utf8')
+        .replace(/^version\s*=\s*"[^"]+"/m, 'version = "1.0.4"'));
+
     const configFile = path.join(temporary, 'src-tauri/tauri.conf.json');
     const raw = fs.readFileSync(configFile, 'utf8')
+        .replace(/("version"\s*:\s*")[^"]+(")/, (_match, prefix, suffix) => `${prefix}1.0.3${suffix}`)
         .replace('__INTEGRA_UPDATER_PUBKEY__', 'PUBLIC_KEY_TEST_ONLY');
     fs.writeFileSync(configFile, raw, 'utf8');
 

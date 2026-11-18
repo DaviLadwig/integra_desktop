@@ -279,6 +279,8 @@ function buildReportModel() {
             teamCount: teams.length,
             semDomicilio,
             semAcompanhamento,
+            monitoredTotal,
+            monitoredPending,
             monitoredCoverage
         }
     };
@@ -895,6 +897,7 @@ function pdfDrawTable(
 function buildPdfPages(model) {
 
     const pages = [];
+    const monthly = model.monthlyReport || null;
 
     /**
      * Página 1 - resumo executivo.
@@ -905,7 +908,9 @@ function buildPdfPages(model) {
     pdfDrawHeader(
         page1,
         model,
-        'Relatório consolidado dos indicadores'
+        monthly
+            ? (monthly.category ? `Relatório individual · ${monthly.groupLabel}` : 'Relatório geral de indicadores')
+            : 'Relatório consolidado dos indicadores'
     );
 
     pdfText(
@@ -950,8 +955,8 @@ function buildPdfPages(model) {
         40 + cardWidth + cardGap,
         cardY,
         cardWidth,
-        'Sem domicílio',
-        formatReportNumber(model.summary.semDomicilio),
+        monthly ? 'Grupos' : 'Sem domicílio',
+        formatReportNumber(monthly ? monthly.groupCount : model.summary.semDomicilio),
         '#d1a20b'
     );
 
@@ -960,8 +965,8 @@ function buildPdfPages(model) {
         40 + (cardWidth + cardGap) * 2,
         cardY,
         cardWidth,
-        'Sem acompanhamento',
-        formatReportNumber(model.summary.semAcompanhamento),
+        monthly ? 'Registros nos grupos' : 'Sem acompanhamento',
+        formatReportNumber(monthly ? model.summary.monitoredTotal : model.summary.semAcompanhamento),
         '#d14449'
     );
 
@@ -978,7 +983,7 @@ function buildPdfPages(model) {
     pdfDrawSectionTitle(
         page1,
         'Indicadores municipais',
-        'Consolidado do escopo selecionado.',
+        monthly ? `Competência ${monthly.competenceLabel} · grupos com dados importados.` : 'Consolidado do escopo selecionado.',
         250
     );
 
@@ -1021,7 +1026,7 @@ function buildPdfPages(model) {
     pdfDrawSectionTitle(
         page1,
         'Boas práticas',
-        'Conformidade agregada por grupo assistencial.',
+        monthly ? 'Conformidade dos grupos presentes neste mês.' : 'Conformidade agregada por grupo assistencial.',
         535
     );
 
@@ -1099,9 +1104,28 @@ function buildPdfPages(model) {
             start + perPage
         );
 
-        pdfDrawTable(
-            page,
-            {
+        const categoryConfig = monthly?.category
+            ? CATS.find(item => item.k === monthly.category)
+            : null;
+
+        const table = categoryConfig ? {
+            x: 40,
+            y: 140,
+            widths: [167, 105, 69, 69, 105],
+            headers: ['Equipe', 'INE', 'Registros', 'Pendentes', 'Cobertura'],
+            rows: currentTeams.map(team => {
+                const total = Number(team[categoryConfig.totalKey] || 0);
+                const pending = Number(team[categoryConfig.pendingKey] || 0);
+                return [
+                    team.equipe || '', team.ine || '',
+                    formatReportNumber(total), formatReportNumber(pending),
+                    total ? `${Math.round(((total - pending) / total) * 100)}%` : '-'
+                ];
+            }),
+            rowHeight: 27,
+            fontSize: 7,
+            alignments: ['left', 'left', 'center', 'center', 'center']
+        } : {
                 x: 24,
                 y: 140,
                 widths: [148, 84, 45, 50, 42, 42, 42, 45, 38, 39],
@@ -1120,14 +1144,18 @@ function buildPdfPages(model) {
                 rows: currentTeams.map(team => [
                     team.equipe || '',
                     team.ine || '',
-                    formatReportNumber(team.sem_domicilio || 0),
-                    formatReportNumber(team.sem_acompanhamento || 0),
-                    formatReportNumber(team.crianca_total || 0),
-                    formatReportNumber(team.gestante_total || 0),
-                    formatReportNumber(team.diabetes_total || 0),
-                    formatReportNumber(team.hipertenso_total || 0),
-                    formatReportNumber(team.idoso_total || 0),
-                    formatReportNumber(team.mulher_total || 0)
+                    monthly ? '-' : formatReportNumber(team.sem_domicilio || 0),
+                    monthly ? '-' : formatReportNumber(team.sem_acompanhamento || 0),
+                    ...[
+                        ['crianca', 'crianca_total'],
+                        ['gestante', 'gestante_total'],
+                        ['diabetes', 'diabetes_total'],
+                        ['hipertenso', 'hipertenso_total'],
+                        ['idoso', 'idoso_total'],
+                        ['mulher', 'mulher_total']
+                    ].map(([key, field]) => monthly && !monthly.categories.includes(key)
+                        ? '-'
+                        : formatReportNumber(team[field] || 0))
                 ]),
                 rowHeight: 27,
                 fontSize: 6.1,
@@ -1143,8 +1171,9 @@ function buildPdfPages(model) {
                     'center',
                     'center'
                 ]
-            }
-        );
+            };
+
+        pdfDrawTable(page, table);
 
     }
 
@@ -1259,20 +1288,124 @@ function buildPdfBinary(pages) {
 }
 
 
-async function baixarRelatorioPDF() {
+/** Monta o PDF mensal sem alterar a competência selecionada no dashboard/BI. */
+async function buildMonthlyReportModel(competenceKey, categoryKey = '') {
+    if (typeof getMonthlyCompetences !== 'function' ||
+        typeof buildMonthlyCompositeWorkbook !== 'function') {
+        throw new Error('A leitura mensal não está disponível nesta instalação.');
+    }
 
-    if (!ensureExportData()) {
+    const periods = await getMonthlyCompetences();
+    const period = periods.find(item => item.key === competenceKey);
+    if (!period) {
+        throw new Error('A competência solicitada não foi encontrada no histórico local.');
+    }
+
+    const selected = categoryKey
+        ? period.imports.filter(item => item.category === categoryKey)
+        : period.imports;
+    if (!selected.length) {
+        throw new Error('Não existem planilhas desse grupo na competência selecionada.');
+    }
+
+    const state = {
+        D, L, GC, GL, sINE,
+        diag: window._siapsDiag,
+        source: window._siapsSource
+    };
+
+    try {
+        const composite = buildMonthlyCompositeWorkbook(selected);
+        buildDataFromWorkbook(composite.workbook);
+        sINE = 'all';
+        window._siapsSource = { name: `Histórico local · ${period.label}` };
+
+        const model = buildReportModel();
+        const available = new Set(composite.categories);
+        model.categories = model.categories.filter(item => available.has(item.key));
+        model.practices = model.practices.filter(item => available.has(item.key));
+        model.scope = categoryKey
+            ? `${historyCategoryLabel(categoryKey)} · ${period.label} · todas as equipes`
+            : `${period.label} · todas as equipes`;
+
+        model.monthlyReport = {
+            competenceKey: period.key,
+            competenceLabel: period.label,
+            category: categoryKey,
+            groupLabel: categoryKey ? historyCategoryLabel(categoryKey) : '',
+            categories: composite.categories,
+            groupCount: composite.categories.length
+        };
+        return model;
+    } finally {
+        // buildDataFromWorkbook substitui estes objetos globais: restaurá-los
+        // evita trocar o mês visível ou interferir com checklists abertos.
+        D = state.D;
+        L = state.L;
+        GC = state.GC;
+        GL = state.GL;
+        sINE = state.sINE;
+        window._siapsDiag = state.diag;
+        window._siapsSource = state.source;
+    }
+}
+
+
+async function baixarRelatorioMensalPDF(competenceKey, categoryKey = '') {
+    const model = await buildMonthlyReportModel(competenceKey, categoryKey);
+    const periodPart = String(competenceKey).replace(/[^\d-]/g, '');
+    const groupPart = categoryKey || 'geral';
+    const name = `Integra_Indicadores_${groupPart}_${periodPart}.pdf`;
+    return baixarRelatorioPDF(model, name);
+}
+
+/** Compatibilidade com planilhas consolidadas abertas sem histórico nominal. */
+async function baixarRelatorioBaseAtualPDF(categoryKey = '') {
+    if (!ensureExportData()) return { saved: false, error: true };
+
+    const model = buildReportModel();
+    const available = Array.isArray(window._siapsAvailableCategories)
+        ? window._siapsAvailableCategories
+        : model.categories.filter(item => item.pending !== null).map(item => item.key);
+    if (categoryKey && !available.includes(categoryKey)) {
+        throw new Error('O grupo solicitado não está disponível na base atual.');
+    }
+
+    const selected = categoryKey ? [categoryKey] : available;
+    model.categories = model.categories.filter(item => selected.includes(item.key));
+    model.practices = model.practices.filter(item => selected.includes(item.key));
+    const total = model.categories.reduce((sum, item) => sum + item.total, 0);
+    const pending = model.categories.reduce((sum, item) => sum + (item.pending || 0), 0);
+    model.summary.monitoredTotal = total;
+    model.summary.monitoredPending = pending;
+    model.summary.monitoredCoverage = total ? Math.round(((total - pending) / total) * 100) : 0;
+    model.monthlyReport = {
+        competenceKey: '',
+        competenceLabel: window._siapsPortalMeta?.competencia || window._siapsHistoryPeriodLabel || 'Base atual',
+        category: categoryKey,
+        groupLabel: categoryKey ? historyCategoryLabel(categoryKey) : '',
+        categories: selected,
+        groupCount: selected.length
+    };
+    model.scope = categoryKey ? `${model.monthlyReport.groupLabel} · ${model.scope}` : model.scope;
+    return baixarRelatorioPDF(model, `Integra_Indicadores_${categoryKey || 'geral'}_base_atual.pdf`);
+}
+
+
+async function baixarRelatorioPDF(reportModel = null, customFileName = '') {
+
+    if (!reportModel && !ensureExportData()) {
         return;
     }
 
     try {
-        const model = buildReportModel();
+        const model = reportModel || buildReportModel();
         const pages = buildPdfPages(model);
         const bytes = buildPdfBinary(pages);
 
-        await saveIntegraFile({
+        return await saveIntegraFile({
             title: 'Salvar relatório PDF',
-            fileName: buildReportFileName('pdf'),
+            fileName: customFileName || buildReportFileName('pdf'),
             extension: 'pdf',
             mimeType: 'application/pdf',
             bytes
@@ -1285,6 +1418,7 @@ async function baixarRelatorioPDF() {
         } else {
             window.alert(error.message || 'Não foi possível salvar o PDF do relatório.');
         }
+        return { saved: false, error: true };
     }
 
 }

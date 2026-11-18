@@ -486,6 +486,12 @@ function handleSectionOpen(
          */
         case 'dashboard':
 
+            if (typeof ensureMonthlyOverview === 'function') {
+                ensureMonthlyOverview().catch(error => {
+                    console.error('Falha ao preparar a Visão Geral da competência:', error);
+                });
+            }
+
             if (
                 window._siapsLoaded &&
                 typeof renderDashboard ===
@@ -505,6 +511,12 @@ function handleSectionOpen(
          * PAINEL BI
          */
         case 'bi':
+
+            if (typeof ensureMonthlyOverview === 'function') {
+                ensureMonthlyOverview().catch(error => {
+                    console.error('Falha ao preparar o BI da competência:', error);
+                });
+            }
 
             if (
                 typeof renderBI ===

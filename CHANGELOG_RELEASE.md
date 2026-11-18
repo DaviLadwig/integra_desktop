@@ -1,7 +1,13 @@
-### Integra 1.0.4
+### Integra 1.0.5
 
-- A tela Relatórios agora permite selecionar uma base/competência já salva no histórico local.
-- Corrigidos os botões de exportação Excel, PDF e impressão, com eventos JavaScript próprios e mensagens claras quando não existe uma base ativa.
-- Mantido o salvamento nativo seguro, com confirmação após a gravação e cancelamento sem falso sucesso.
-- Nenhuma alteração no formato do histórico local, nas credenciais, no identificador do aplicativo ou na chave pública de atualização.
-- Versão preparada para testar atualização assinada da instalação 1.0.3 para 1.0.4.
+- Visão Geral integrada: leitura conjunta de grupos assistenciais para a mesma competência.
+- BI com visualizações consolidadas e opção de leitura individual por grupo.
+- Importação de várias planilhas Excel em uma seleção.
+- Histórico local organizado por competência, com cada mês expansível para listar suas planilhas.
+- Relatórios PDF geral por competência ou individual por grupo, com boas práticas e detalhamento por equipe.
+- Contraste corrigido no tema escuro: botões da Visão Geral, perfil sociodemográfico e critérios monitorados do BI.
+- Mantidos o funcionamento offline, os dados locais por usuário e os relatórios de bases já carregadas.
+- Download público com nome estável `Integra-Atual.msi`, para usar o mesmo link no site nas próximas versões.
+- Sem alteração da chave pública do atualizador nem do identificador do aplicativo.
+
+Observação: no relatório geral, um cidadão que participe de mais de um grupo poderá constar no total de cada grupo; esses totais não significam pessoas únicas.
